@@ -1,0 +1,67 @@
+const { verify_token } = require("./verify_token");
+const router = require("express").Router();
+const User = require("../models/User.ts");
+
+//Update
+router.put("/:id", verify_token, async (req, res) => {
+  try {
+    const updated_user = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body, //$set to add new data;
+      },
+      { new: true }
+    );
+    res.status(200).json(updated_user);
+  } catch (error) {
+    console.log(error);
+  }
+});
+// Delete
+
+router.delete("/:id", verify_token, async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.status(200).json("user delete successfuly");
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// Get one user
+
+router.get("/search/:id", verify_token, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    const { password, ...other } = user._doc;
+    res.status(200).json(other);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// Get all user
+
+router.get("/", verify_token, async (req, res) => {
+  try {
+    const user = await User.find();
+    res.status(200).json(user);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// Get stats number of user per month
+
+// router.get("/stats", verify_token, async (req,res) =>{
+//     const date = new Date();
+//     const last_year = new Date(date.setFullYear(date.getFullYear() - 1));
+
+//     try {
+
+//     } catch (error) {
+//         console.log(error);
+//     }
+// })
+
+module.exports = router;
