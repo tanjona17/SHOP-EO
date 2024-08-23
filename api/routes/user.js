@@ -19,12 +19,47 @@ router.put("/:id", verify_token, async (req, res) => {
 });
 // Delete
 
-router.delete("/:id", verify_token, async (req, res) => {
+// router.delete("/:id", verify_token, async (req, res) => {
+//   try {
+//     await User.findByIdAndDelete(req.params.id);
+//     res.status(200).json("user delete successfuly");
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
+router.delete("/", async (req, res) => {
   try {
-    await User.findByIdAndDelete(req.params.id);
-    res.status(200).json("user delete successfuly");
+    const { ids } = req.body;
+    
+    if (Array.isArray(ids) && ids.length > 0) {
+      const objectIds = ids.map((id) => new mongoose.Types.ObjectId(id));
+
+      if (ids.length === 1) {
+        // Single item delete
+        const result = await User.deleteOne({ _id: objectIds[0] });
+
+        if (result.deletedCount === 1) {
+          res.status(200).send("Item deleted successfully");
+        } else {
+          res.status(404).send("Item not found");
+        }
+      } else {
+        const result = await User.deleteMany({ _id: { $in: objectIds } });
+
+        if (result.deletedCount > 0) {
+          res
+            .status(200)
+            .send(`${result.deletedCount} items deleted successfully`);
+        } else {
+          res.status(404).send("No items found for deletion");
+        }
+      }
+    } else {
+      res.status(400).send("Invalid input");
+    }
   } catch (error) {
-    console.log(error);
+    console.error("Error deleting items:", error);
+    res.status(500).send("An error occurred while deleting items");
   }
 });
 
