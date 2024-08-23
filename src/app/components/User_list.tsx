@@ -12,19 +12,21 @@ import { InputIcon } from "primereact/inputicon";
 import useSWR, { mutate } from "swr";
 import { EyeIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
+import { TOKEN } from "@/redux/api";
 
-const fetcher = (...args: [any]) => fetch(...args).then((res) => res.json());
+const fetcher = (...args: [any]) => fetch(...args, {
+  method: 'GET', 
+  headers:{
+       'Content-Type': 'application/json',
+       'token': `Bearer ${TOKEN}`, // get user token
+      }
+}).then((res) => res.json());
+
 
 export default function User_list() {
   // fetching data
-  const { data, error } = useSWR(
-    `http://localhost:1234/api/user/`,
-    fetcher,
-    {
-      revalidateOnFocus: false,
-    
-    }
-  );
+  const { data, error } = useSWR( 'http://localhost:1234/api/user/', fetcher)
+  ;
  
   
  
