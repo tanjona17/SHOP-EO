@@ -18,9 +18,13 @@ import Side_bar from "../components/Side_bar";
 import Line_chart from "../components/Line_chart";
 import Apex_line from "../components/Apex_line";
 export default function page() {
+
+
+  
   return (
     <>
-      <Navbar title={"ShopAdmin"} />
+
+      <Navbar title={"ShopAdmin"} />  
 
       <Side_bar />
 

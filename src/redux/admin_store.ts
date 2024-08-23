@@ -26,7 +26,7 @@ import {
   const persistedReducer = persistReducer(persistConfig, user_redux)
 
 
-export const store =  configureStore({
+export const admin_store =  configureStore({
     reducer: persistedReducer,
     
     middleware: (getDefaultMiddleware) =>
@@ -38,4 +38,4 @@ export const store =  configureStore({
  
 });
 
-export let persistor = persistStore(store);
+export let persistor = persistStore(admin_store);

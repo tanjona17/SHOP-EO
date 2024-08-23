@@ -53,15 +53,7 @@ console.log(ids);
     setGlobalFilterValue(value);
   };
 
-  // const handle_delete = async (id: any) => {
-  //   try {
-  //     await axios.delete(`http://localhost:1234/api/product/`,id);
-  //     set_product([]);
-  //     mutate("http://localhost:1234/api/product/");
-  //   } catch (error) {
-  //     console.error("Error during deletion:", error);
-  //   }
-  // };
+
   const handle_delete = async (ids: any) => {
     try {
       
