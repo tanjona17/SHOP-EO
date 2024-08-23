@@ -18,13 +18,15 @@ const fetcher = (...args: [any]) => fetch(...args).then((res) => res.json());
 export default function User_list() {
   // fetching data
   const { data, error } = useSWR(
-    `http://localhost:1234/api/product/`,
+    `http://localhost:1234/api/user/`,
     fetcher,
     {
       revalidateOnFocus: false,
     
     }
   );
+ 
+  
  
   // console.log(data);
 
@@ -165,8 +167,8 @@ export default function User_list() {
               headerStyle={{ width: "3rem", border: "5px black" }}
             ></Column>
             <Column field="_id" header="ID" sortable></Column>
-            <Column field="product_name" header="Name"></Column>
-            <Column field="price" header="Price"></Column>
+            <Column field="username" header="Name"></Column>
+            <Column field="email" header="Price"></Column>
           </DataTable>
         </div>
       </div>

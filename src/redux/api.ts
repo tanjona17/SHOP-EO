@@ -11,3 +11,5 @@ export const login = async (dispatch: any, user: User) => {
     dispatch(login_failed());
   }
 };
+
+export const TOKEN ="";
