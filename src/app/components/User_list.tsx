@@ -6,31 +6,24 @@ import { Tooltip } from "primereact/tooltip";
 import { Column } from "primereact/column";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { FilterMatchMode } from "primereact/api";
-import { InputText } from "primereact/inputtext";
-import { IconField } from "primereact/iconfield";
-import { InputIcon } from "primereact/inputicon";
 import useSWR, { mutate } from "swr";
 import { EyeIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
 import { TOKEN } from "@/redux/api";
 
-const fetcher = (...args: [any]) => fetch(...args, {
-  method: 'GET', 
-  headers:{
-       'Content-Type': 'application/json',
-       'token': `Bearer ${TOKEN}`, // get user token
-      }
-}).then((res) => res.json());
-
+const fetcher = (...args: [any]) =>
+  fetch(...args, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      token: `Bearer ${TOKEN}`, // get user token
+    },
+  }).then((res) => res.json());
 
 export default function User_list() {
   // fetching data
-  const { data, error } = useSWR( 'http://localhost:1234/api/user/', fetcher)
-  ;
- 
-  
- 
-  // console.log(data);
+  const { data, error } = useSWR("http://localhost:1234/api/user/", fetcher);
+
 
   // filters
   const [selected_user, set_user] = useState([]);
@@ -169,8 +162,8 @@ export default function User_list() {
               headerStyle={{ width: "3rem", border: "5px black" }}
             ></Column>
             <Column field="_id" header="ID" sortable></Column>
-            <Column field="username" header="Name"></Column>
-            <Column field="email" header="Price"></Column>
+            <Column field="username" header="Username"></Column>
+            <Column field="email" header="Email"></Column>
           </DataTable>
         </div>
       </div>

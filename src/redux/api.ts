@@ -7,9 +7,14 @@ export const login = async (dispatch: any, user: User) => {
   try {
     const res = await axios.post("http://localhost:1234/api/auth/login", user);
     dispatch(login_success(res.data));
+    console.log(res.data);
+    localStorage.setItem("token", res.data.access_token)
+
   } catch (error) {
     dispatch(login_failed());
   }
 };
 
-export const TOKEN ="";
+export const TOKEN = localStorage.getItem("token")
+ 
+

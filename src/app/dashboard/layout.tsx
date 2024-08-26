@@ -15,15 +15,13 @@ type Props = {
 const Layout = ({ children }: Props) => {
   return (
     <>
-    <Provider store={admin_store}>
-      <PersistGate loading="null" persistor={persistor}  >
-        <Navbar title={"ShopEoAdmin"} />
-        <Side_bar />
-        {children}
-      </PersistGate>
-
-    </Provider>
-     
+      <Provider store={admin_store}>
+        <PersistGate loading="null" persistor={persistor}>
+          <Navbar title={"ShopEoAdmin"} />
+          <Side_bar />
+          {children}
+        </PersistGate>
+      </Provider>
     </>
   );
 };

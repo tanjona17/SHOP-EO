@@ -10,15 +10,22 @@ import "/node_modules/flowbite/dist/flowbite.min.js";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { Bars3BottomLeftIcon } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
 
 interface Props {
   title: string;
 }
 
 export default function Navbar(props: Props) {
-  const cart = useSelector((state) => state.cart);
-  const quantity = useSelector((state) => state.cart.quantity);
-  const price = useSelector((state) => state.cart.total_price);
+  const router = useRouter();
+
+  const log_out = ()=>{
+    localStorage.clear();
+    router.push('/')
+  }
+
+
+
 
   return (
     <>
@@ -53,14 +60,6 @@ export default function Navbar(props: Props) {
           </button>
         </div>
         <div className="flex justify-end">
-          <Link href={"/cart"}>
-            <button className="py-2 px-2 mr-3 flex text-[#13304D]">
-              <ShoppingCartIcon className="w-[30px] " />
-              <p className="bg-red-500 text-white mt-[-10px] ml-[-7px] w-7 rounded-full">
-                {quantity}
-              </p>
-            </button>
-          </Link>
           <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             <button
               type="button"
@@ -85,9 +84,9 @@ export default function Navbar(props: Props) {
                 </span>
                 <span className="block text-sm flex  mt-3 text-gray-500 truncate">
                   <ArrowLeftEndOnRectangleIcon className="w-6 h-6" />
-                  <a href="#" className="ml-2">
+                  <button className="ml-2" onClick={log_out}>
                     Log out
-                  </a>
+                  </button>
                 </span>
               </div>
             </div>

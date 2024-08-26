@@ -1,13 +1,5 @@
 "use client";
-import {
-  Disclosure,
-  DisclosureButton,
-  Transition,
-  DisclosurePanel,
-  Field,
-  Checkbox,
-  Label,
-} from "@headlessui/react";
+
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import React from "react";
@@ -17,10 +9,15 @@ import Navbar from "../components/Navbar";
 import Side_bar from "../components/Side_bar";
 import Line_chart from "../components/Line_chart";
 import Apex_line from "../components/Apex_line";
-export default function page() {
+import { useRouter } from "next/navigation";
 
+export default function Page() {
+  const router = useRouter();
 
-  
+  const log_out = ()=>{
+    localStorage.clear();
+    router.push('/')
+  }
   return (
     <>
 

@@ -1,5 +1,8 @@
 {
     "marquee.widgets.npm-stats.packageNames": [
         "next-app"
-    ]
+    ],
+    "editor.cursorBlinking": "expand",
+    "editor.cursorStyle": "line",
+    "editor.cursorWidth": 2
 }

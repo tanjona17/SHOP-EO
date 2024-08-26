@@ -14,6 +14,7 @@ export default function Login() {
 
   const [username, set_username] = useState<string>("");
   const [password, set_password] = useState<string>("");
+  const [current_user, set_current] = useState('')
   const { is_fetching, error } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const current = useSelector((state) => state.user.current_user);
@@ -32,6 +33,7 @@ export default function Login() {
     }
   }, [current, error, router]);
 
+    
   // useEffect(() => {
   //     if (current &&  !error) {
   //         router.push("/shop");
