@@ -24,7 +24,6 @@ export default function User_list() {
   // fetching data
   const { data, error } = useSWR("http://localhost:1234/api/user/", fetcher);
 
-
   // filters
   const [selected_user, set_user] = useState([]);
   const [row_click, set_clicked] = useState<boolean>(true);

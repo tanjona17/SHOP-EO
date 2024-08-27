@@ -21,25 +21,32 @@ export default function Page() {
     initialValues: {
       product_name: "",
       descri: "",
-      img: "",
+      img: null,
       price: 0,
     },
     validationSchema: Yup.object({
       product_name: Yup.string().required("Required"),
       descri: Yup.string().required("Required"),
-      img: Yup.string().required("Required"),
+      img: Yup.mixed().required("Required"),
       price: Yup.number().required("Required"),
     }),
     onSubmit: async (values, actions) => {
+      const form_data = new FormData();
+      form_data.append("product_name", values.product_name);
+      form_data.append("descri", values.descri);
+      form_data.append("img", values.img);
+      form_data.append("price", values.price);
         try {
 
-        await axios.post("http://localhost:1234/api/product/register", values);
+        await axios.post("http://localhost:1234/api/product/register", form_data);
         mutate("http://localhost:1234/api/product/")
         actions.resetForm();
         
       } catch (error) {
         console.error("Error during insertion:", error);
       }
+      console.log(values);
+      
   }
 });
 
@@ -168,9 +175,9 @@ export default function Page() {
                     SVG, PNG, JPG or GIF (MAX. 800x400px)
                   </p>
                 </div>
-                <input id="img" type="file" className="hidden"
-                    value={new_product.values.img}
-                    onChange={new_product.handleChange}
+                <input name="img" id="img" type="file" className="hidden"
+                    
+                    onChange={(e) =>{ new_product.setFieldValue("img",e.target.files[0])}}
                     onBlur={new_product.handleBlur} />
               </label>
               {new_product.errors.img && new_product.touched.img ? (

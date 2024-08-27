@@ -28,11 +28,10 @@ export default function Product_list() {
   const [row_click, set_clicked] = useState<boolean>(true);
   const [globalFilterValue, setGlobalFilterValue] = useState("");
 
-  const get_ids = selected_product.map((x) => [x._id])
-  const ids = get_ids.flat()
-console.log(ids);
+  const get_ids = selected_product.map((x) => [x._id]);
+  const ids = get_ids.flat();
+  console.log(ids);
 
-  
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     product_name: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -53,24 +52,24 @@ console.log(ids);
     setGlobalFilterValue(value);
   };
 
-
   const handle_delete = async (ids: any) => {
     try {
-      
       const ids_array = Array.isArray(ids) ? ids : [ids];
-      const response = await axios.delete(`http://localhost:1234/api/product/`, {
-        data: { ids: ids_array }
-      });
-  
+      const response = await axios.delete(
+        `http://localhost:1234/api/product/`,
+        {
+          data: { ids: ids_array },
+        }
+      );
+
       console.log(response.data);
-  
+
       mutate(`http://localhost:1234/api/product/`);
     } catch (error) {
       console.error("Error during deletion:", error);
     }
   };
 
-  
   const renderHeader = () => {
     return (
       <div className="grid grid-cols-2">
@@ -81,66 +80,66 @@ console.log(ids);
           value={globalFilterValue}
           onChange={onGlobalFilterChange}
         />
-        {selected_product && 
+        {selected_product &&
         selected_product.length > 0 &&
         selected_product.length === 1 ? (
           <>
-          {selected_product.map((x)=>{
-            return <>
-            <div className="flex justify-center">
-            <button
-              className="px-6 view py-[6px] rounded-lg flex"
-              data-pr-tooltip="View"
-              data-pr-position="right"
-              data-pr-at="right+5 top"
-              data-pr-my="left center-2"
-            >
-              <Tooltip
-                target=".view"
-                className="ml-[-40px] mt-[-10px] opacity-80"
-              />
-              <EyeIcon className="  w-7 h-7" />
-            </button>
-            <Link href={`product/edit?id=${x._id}`}>
-              <button
-                className="bg-purple-500 px-6 py-[6px] mx-3 rounded-lg edit"
-                data-pr-tooltip="Edit"
-                data-pr-position="right"
-                data-pr-at="right+5 top"
-                data-pr-my="left center-2"
-              >
-                <Tooltip
-                  target=".edit"
-                  className="ml-[-20px] mt-[-10px] opacity-80"
-                />
-                <PencilIcon className="  w-7 h-7" />
-              </button>
-            </Link>
-            <button
-              className="bg-red-400 px-6 py-[6px] rounded-lg delete"
-              onClick={() => handle_delete(x._id)}
-              data-pr-tooltip="Delete"
-              data-pr-position="right"
-              data-pr-at="right+5 top"
-              data-pr-my="left center-2"
-            >
-              <Tooltip
-                target=".delete"
-                className="ml-[-15px] mt-[-10px] opacity-80"
-              />
-              <TrashIcon className=" w-7 h-7" />
-            </button>
-          </div>
+            {selected_product.map((x) => {
+              return (
+                <>
+                  <div className="flex justify-center">
+                    <button
+                      className="px-6 view py-[6px] rounded-lg flex"
+                      data-pr-tooltip="View"
+                      data-pr-position="right"
+                      data-pr-at="right+5 top"
+                      data-pr-my="left center-2"
+                    >
+                      <Tooltip
+                        target=".view"
+                        className="ml-[-40px] mt-[-10px] opacity-80"
+                      />
+                      <EyeIcon className="  w-7 h-7" />
+                    </button>
+                    <Link href={`product/edit?id=${x._id}`}>
+                      <button
+                        className="bg-purple-500 px-6 py-[6px] mx-3 rounded-lg edit"
+                        data-pr-tooltip="Edit"
+                        data-pr-position="right"
+                        data-pr-at="right+5 top"
+                        data-pr-my="left center-2"
+                      >
+                        <Tooltip
+                          target=".edit"
+                          className="ml-[-20px] mt-[-10px] opacity-80"
+                        />
+                        <PencilIcon className="  w-7 h-7" />
+                      </button>
+                    </Link>
+                    <button
+                      className="bg-red-400 px-6 py-[6px] rounded-lg delete"
+                      onClick={() => handle_delete(x._id)}
+                      data-pr-tooltip="Delete"
+                      data-pr-position="right"
+                      data-pr-at="right+5 top"
+                      data-pr-my="left center-2"
+                    >
+                      <Tooltip
+                        target=".delete"
+                        className="ml-[-15px] mt-[-10px] opacity-80"
+                      />
+                      <TrashIcon className=" w-7 h-7" />
+                    </button>
+                  </div>
+                </>
+              );
+            })}
           </>
-          })}
-          </>
-          
         ) : selected_product.length > 1 ? (
-          
           <div className="flex justify-center">
             <button
               className="bg-red-400 px-6 py-[6px] rounded-lg delete"
-              onClick={() => handle_delete((ids))}
+              onClick={() => handle_delete(ids)}
               data-pr-tooltip="Delete"
               data-pr-position="right"
               data-pr-at="right+5 top"
@@ -199,6 +198,3 @@ console.log(ids);
     </>
   );
 }
-
-
-

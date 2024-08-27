@@ -30,7 +30,7 @@ router.put("/:id", verify_token, async (req, res) => {
 router.delete("/", async (req, res) => {
   try {
     const { ids } = req.body;
-    
+
     if (Array.isArray(ids) && ids.length > 0) {
       const objectIds = ids.map((id) => new mongoose.Types.ObjectId(id));
 

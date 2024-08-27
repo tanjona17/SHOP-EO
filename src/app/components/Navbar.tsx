@@ -11,7 +11,6 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 import { Bars3BottomLeftIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
-
 interface Props {
   title: string;
 }
@@ -19,13 +18,10 @@ interface Props {
 export default function Navbar(props: Props) {
   const router = useRouter();
 
-  const log_out = ()=>{
+  const log_out = () => {
     localStorage.clear();
-    router.push('/')
-  }
-
-
-
+    router.push("/");
+  };
 
   return (
     <>
