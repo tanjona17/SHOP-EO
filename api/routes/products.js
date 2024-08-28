@@ -2,13 +2,30 @@ const router = require("express").Router();
 const Product = require("../models/Produts.ts");
 const mongoose = require("mongoose");
 const {objectID} = require("mongodb")
+const multer = require("multer");
+const path = require("path")
 //CREATE
-router.post("/register", async (req, res) => {
+
+const storage = multer.diskStorage({
+  destination: (req,file,cb) =>{
+    cb(null, "public/db_images")
+  },
+    filename: (req,file, cb) =>{
+      cb(null, file.fieldname + "_" + Date.now() +"_" + file.originalname)
+    }
+  
+
+});
+const upload = multer({
+  storage: storage
+})
+
+router.post("/register",upload.single("img"),  async (req, res) => {
   const new_product = new Product({
     product_name: req.body.product_name,
     descri: req.body.descri,
     price: req.body.price,
-    img: req.file.filename,
+    img: req.body.filename,
   });
 
   try {
@@ -17,6 +34,10 @@ router.post("/register", async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+
+
+
+
 });
 
 // UPDATE
