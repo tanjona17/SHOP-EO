@@ -12,16 +12,9 @@ import Apex_line from "../components/Apex_line";
 import { useRouter } from "next/navigation";
 
 export default function Page() {
-  const router = useRouter();
-
-  const log_out = ()=>{
-    localStorage.clear();
-    router.push('/')
-  }
   return (
     <>
-
-      <Navbar title={"ShopAdmin"} />  
+      <Navbar title={"ShopAdmin"} />
 
       <Side_bar />
 
