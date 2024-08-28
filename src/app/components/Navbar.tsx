@@ -16,7 +16,11 @@ interface Props {
   title: string;
 }
 
+  
+ 
+
 export default function Navbar(props: Props) {
+  const quantity = useSelector((state) => state.cart.quantity);
   const router = useRouter();
 
   const log_out = ()=>{
@@ -60,6 +64,14 @@ export default function Navbar(props: Props) {
           </button>
         </div>
         <div className="flex justify-end">
+        <Link href={"/cart"}>
+            <button className="py-2 px-2 mr-3 flex text-[#13304D]">
+              <ShoppingCartIcon className="w-[30px] " />
+              <p className="bg-red-500 text-white mt-[-10px] ml-[-7px] w-7 rounded-full">
+                {quantity}
+              </p>
+            </button>
+          </Link>
           <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             <button
               type="button"

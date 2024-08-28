@@ -33,7 +33,7 @@ export default  function Products_cart() {
   return (
     <>
 
-      <Navbar/>
+      <Navbar title={'Shop Eo'}/>
       {/* {  
    
       data ?

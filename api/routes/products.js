@@ -8,7 +8,7 @@ router.post("/register", async (req, res) => {
     product_name: req.body.product_name,
     descri: req.body.descri,
     price: req.body.price,
-    img: req.body.img,
+    img: req.file.filename,
   });
 
   try {

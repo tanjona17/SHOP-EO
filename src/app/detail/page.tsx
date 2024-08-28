@@ -12,6 +12,7 @@ import { count } from 'console';
 import { add_product } from '@/redux/cart_redux';
 import { useDispatch } from 'react-redux';
 import Footer from '../components/Footer';
+import Image from 'next/image';
 
 const fetcher = (...args: [any] ) => fetch(...args).then( (res) => res.json());
 
@@ -40,28 +41,27 @@ export default  function Products_cart() {
     dispatch( add_product({data, quantity, price:data.price * quantity}))
   }
  
-
-
-
   return (
     <>
       
 
-      
-      <Navbar title={'Shop-Eo'}/>
+      <Navbar title={'Shop-Eo'} />
       {  
     
    
       data ?
-          <div className='flex px-[80px] mt-[50px]'>
+          <div className='flex h-[250px] px-[80px] mt-[80px]'>
             <div className='
-              flex bg-slate-500 w-2/5
+              flex bg-slate-500 w-2/5 
             '>
-              <img src="/hero-img.png" alt="" />
+              <div className='flex w-full justify-center '>
+                <Image src={`/db_images/${data.img}`} width={200} height={100}  alt="product image" />
+              </div>
+              
             </div>
             <div className=' w-3/5 px-[50px]'>
               <div className='flex grid grid-cols-2 text-[#13304D] '>
-                <div className='font-bold text-[24px]'>{data.title}</div>
+                <div className='font-bold text-[24px]'>{data.product_name}</div>
                 <div className='font-bold text-[24px]'>{data.price}</div>
               </div>
               <div className='about px-0 w-4/5 mt-5  '>

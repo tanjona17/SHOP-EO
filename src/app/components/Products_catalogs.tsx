@@ -3,7 +3,7 @@ import Image from 'next/image'
 import React, { useContext, useEffect } from 'react'
 import {ShoppingCartIcon  } from '@heroicons/react/24/solid';
 import Link from 'next/link';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import { Product_type } from "@/app/types/products_type";
 
 import { useDispatch } from 'react-redux';
@@ -12,8 +12,9 @@ const fetcher = (...args: [any] ) => fetch(...args).then( (res) => res.json());
 
 export default function ProuctsCatalogs() {
   const {data, error} = useSWR(`http://localhost:1234/api/product/`, fetcher,{
-    revalidateOnFocus: false
+    revalidateOnFocus: true
   });
+  mutate("http://localhost:1234/api/product");
   const dispatch = useDispatch();
   const add_to_cart = () =>{
     dispatch( add_product({data}))
@@ -35,7 +36,10 @@ export default function ProuctsCatalogs() {
         rounded-tr-[7px] rounded-tl-[7px] 
         rounded-br-[15px] rounded-bl-[15px]"
         key={x._id}>
-        <img className="w-full" src="/2.png"  alt="product image"/>
+          <div className='flex w-[250px] h-[250px] justify-center p-3'>
+          <Image src={`/db_images/${x.img}`} width={1200} height={100}  alt="product image"/>
+          </div>
+       
         <div className="px-3 py-4">
           <div className=" flex justify-between font-bold text-md text-[#13304D] mb-2">
             <p>{x.product_name} </p>
