@@ -6,22 +6,28 @@ import {
 } from "@heroicons/react/24/solid";
 import React, { useContext, useState } from "react";
 import Navbar from "./Navbar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Product_type } from "../types/products_type";
 import Image from "next/image";
+import { reset_cart } from '@/redux/cart_redux';
+import Link from "next/link";
 
 export default function User_cart() {
+    const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
-  console.log(cart);
 
+
+    const reset = ()=>{
+        dispatch(reset_cart());
+    }
   return (
     <>
       <Navbar title={"Shop Eo"} />
 
       {/* original */}
-      <div className="grid grid-cols-3 gap-4 mt-5">
+      <div className="grid grid-cols-3 gap-4 mt-5 ">
         <div className=" h-[610px] col-span-2 overflow-y-scroll mt-10">
-          {cart.data.map((prod: Product_type) => {
+          {cart.data.length > 0 ? cart.data.map((prod: Product_type) => {
             return (
               <>
                 <div className=" mt-5  w-4/5 ml-5">
@@ -61,85 +67,61 @@ export default function User_cart() {
                 </div>
               </>
             );
-          })}
+          }) : 
+          <div className="mt-10 grid grid-rows-2 justify-center ">
+            <div>Your cart is empty.</div>
+            <Link href={"/shop"}>
+                <button className='
+                bg-[#5B6EE8] font-bold
+                rounded-full text-white 
+                px-7 py-2' >
+                Shop now
+                    </button>
+                            </Link>
+          </div> }
         </div>
-        {/* {
-        cart.data.map( prod =>{
-            return (
-                <>
-
 
        
-                <div className=' mt-5 bg-black w-3/5'>
-                        <div className='
-                            flex px-[80px] pt-3 
-                            w-4/5 h-[220px] shadow-lg 
-                            rounded-[16px]  ' 
-                            >
-                            <div className='
-                                        flex bg-slate-500 w-2/5 p1 h-[150px]
-                                        '>
-                                        <img src="/hero-img.png" alt="" />
-                            </div>
-                            <div className=' w-3/5 px-[50px] h-[100px]'>
-                                <div className='flex grid grid-cols-2 text-[#13304D] '>
-                                    <div className='font-bold text-[24px]'>{prod.title}</div>
-                                    <div className='font-bold text-[24px]'>{prod.price}</div>
-                                </div>
-                                <div className='about  w-5/5 mt-1 text-sm text-[#707070] '>
-                                {prod.descri}
-                                </div>
-                            </div>
-                        </div>
-                </div>
-        
-         
-            </>
-            )
-        })
-    } */}
 
-        <div className="bg-red-500 pt-5 px-5 mt-10 ">
+        <div className="bg-white pt-5 px-5 mt-10 ">
           <div className="text-center font-medium text-[30px]">
             <h1>Order</h1>
           </div>
           <div className="flex">
             <div className="w-[50%]">
               <p>Number of product</p>
-              <p>Total</p>
+              <p className="mt-5">Total</p>
             </div>
             <div className="w-[50%]  text-end">
               <p>{cart.quantity}</p>
-              <p>${cart.total_price}</p>
+              <p className="mt-5">${cart.total_price}</p>
             </div>
           </div>
-          <div className="flex justify-center">
-            <button className="w-[150px] bg-[#5B6EE8] text-center  ">
-              CHECKOUT
-            </button>
+          <div className="flex justify-center mt-3">
+            
+          <button className='
+          border border-[#13304D]
+          bg-[#13304D] 
+          text-white rounded-full
+          px-5 py-2 hover:bg-white 
+          hover:text-[#13304D] '
+          >
+            CHECKOUT
+          </button>
+          <button className='
+          border border-red-300 ml-3
+          text-red-400 rounded-full
+          px-5 py-2 hover:bg-red-500
+          hover:text-[white] '
+          onClick={reset}
+          >
+            RESET
+          </button>
           </div>
         </div>
       </div>
 
-      {/* <div className='h-[130px]'>
-            <div className='flex justify-center font-bold text-[#13304D] text-[20px]'>
-                Total : {(price)*count}
-            </div>
-            <div className='flex justify-center mt-3'>
-                <button className='
-                    bg-[#5B6EE8] font-bold
-                    rounded-full text-white 
-                    px-7 py-2'
-                >
-                    Buy
-                </button>
-                <button className='
-                    rounded-full border border-[#5B6EE8]
-                    px-5 py-2 text-[#5B6EE8] ml-10'>
-                    Cancel
-                </button>
-            </div>
-    </div> */}
+      
     </>
   );
 }
