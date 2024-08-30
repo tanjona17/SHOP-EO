@@ -1,7 +1,7 @@
 const { verify_token } = require("./verify_token");
 const router = require("express").Router();
 const User = require("../models/User.ts");
-
+const Message = require("../models/Message.ts")
 //Update
 router.put("/:id", verify_token, async (req, res) => {
   try {
@@ -98,5 +98,32 @@ router.get("/", verify_token, async (req, res) => {
 //         console.log(error);
 //     }
 // })
+
+
+router.post("/message", async (req, res) =>{
+  const new_message = new Message({
+    name: req.body.name,
+    email: req.body.email,
+    subject: req.body.subject,
+    message: req.body.message,
+  })
+
+  try {
+    const saved_message = await new_message.save();
+    res.status(201).json(saved_message);
+  } catch (error) {
+    console.log(error);
+    
+  }
+});
+router.get("/message", async (req, res) =>{
+  try {
+      const message = await Message.find();
+      res.status(200).json(message);
+  } catch (error) {
+    console.log(error);
+    
+  }
+})
 
 module.exports = router;

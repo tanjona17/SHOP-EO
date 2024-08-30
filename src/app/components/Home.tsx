@@ -11,10 +11,23 @@ from '@heroicons/react/24/solid'
 import Products_catalogs from './Products_catalogs'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
+import { useFormik } from 'formik'
+import axios from 'axios'
 
 export default function  Home() {
-    const user = useSelector(state =>state.user);
-    console.log(user);
+
+    const new_message = useFormik({
+        initialValues:{
+            name: "",
+            email: "",
+            subject: "",
+            message: ""
+        },onSubmit: (values, actions) =>{
+         axios.post("http://localhost:1234/api/user/message", values);
+            actions.resetForm()
+        }
+    })
+    
     
   return (
     <>
@@ -124,7 +137,8 @@ export default function  Home() {
                     <p className='font-bold text-[#13304D]' >Email: <span><br/> info@example.com</span></p>  
                 </div>
             </div>
-            <form className='
+            {/* contact section */}
+            <form onSubmit={new_message.handleSubmit} className='
                 flex justify-center 
                 mt-3 bg-teal-200 
                 mx-[150px] py-[50px]
@@ -142,6 +156,10 @@ export default function  Home() {
                                 focus:outline-none rounded-sm
                                 focus:border-[#5B6EE8]'
                                 placeholder='Your name'
+                                name='name'
+                                value={new_message.values.name}
+                                onChange={new_message.handleChange}
+                                onBlur={new_message.handleBlur}
                             />
 
                         </div>
@@ -152,7 +170,11 @@ export default function  Home() {
                                 border-2 border-gray-400 
                                 focus:outline-none rounded-sm
                                 focus:border-[#5B6EE8]'
-                                placeholder='Your name'
+                                placeholder='Your email'
+                                name='email'
+                                value={new_message.values.email}
+                                onChange={new_message.handleChange}
+                                onBlur={new_message.handleBlur}
                             />
                         </div>
                     </div>
@@ -164,6 +186,10 @@ export default function  Home() {
                                 focus:outline-none rounded-sm
                                 focus:border-[#5B6EE8]'
                                 placeholder='Subject'
+                                name='subject'
+                                value={new_message.values.subject}
+                                onChange={new_message.handleChange}
+                                onBlur={new_message.handleBlur}
                             />
                     </div>
                     <div className='grid grid-cols-1 '>
@@ -175,6 +201,10 @@ export default function  Home() {
                                     focus:outline-none rounded-sm
                                     focus:border-[#5B6EE8]'
                                     placeholder='Message'
+                                    name='message'
+                                    value={new_message.values.message}
+                                    onChange={new_message.handleChange}
+                                    onBlur={new_message.handleBlur}
                                 />
                         <div className='flex justify-center mt-5'>
                             <button className=' bg-[#5B6EE8] rounded-full text-white px-7 py-2' >
