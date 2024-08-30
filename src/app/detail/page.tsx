@@ -50,27 +50,29 @@ export default  function Products_cart() {
     
    
       data ?
-          <div className='flex h-[250px] px-[80px] mt-[80px]'>
+          <div className='flex h-[350px] px-[80px] mt-[80px]  justify-center'>
+            <div className='flex w-3/5 bg-white '>
             <div className='
-              flex bg-slate-500 w-2/5 
+              flex bg-slate-500 w-3/5 
             '>
               <div className='flex w-full justify-center '>
-                <Image src={`/db_images/${data.img}`} width={200} height={100}  alt="product image" />
+                <Image src={`/db_images/${data.img}`} width={1200} height={1000}  alt="product image" />
               </div>
               
             </div>
-            <div className=' w-3/5 px-[50px]'>
+            <div className=' w-4/5 px-[50px] pt-5'>
               <div className='flex grid grid-cols-2 text-[#13304D] '>
                 <div className='font-bold text-[24px]'>{data.product_name}</div>
                 <div className='font-bold text-[24px]'>{data.price}</div>
               </div>
-              <div className='about px-0 w-4/5 mt-5  '>
+              <div className='about px-0 w-4/5 mt-5 h-[120px] overflow-y-auto  '>
                 <p className='text-[#707070]'>
                   {data.descri}
+              
                 </p>
               </div>
            
-              <div className='flex justify-start w-3/5 mt-10 '>
+              <div className='flex justify-start w-full mt-10 '>
               <div className='flex  mt-0 w-1/5 justify-start '>
                             <div className='flex   items-center'> 
                                 <button onClick={() => handle_quantity("decrease")}  >
@@ -82,7 +84,7 @@ export default  function Products_cart() {
                                 </button>
                             </div>          
               </div>
-                <div className='flex bg-[#5B6EE8] px-3 py-1 rounded-full ml-[60px]'>
+                <div className='flex bg-[#5B6EE8]  px-3 py-1 rounded-full ml-[60px]'>
                   <ShoppingCartIcon className=" w-[35px] p-1  ml-0 rounded-lg text-white "/>
                   <button className='flex  px-3 pt-2 ' onClick={add_to_cart}>
                       Add to cart
@@ -90,6 +92,8 @@ export default  function Products_cart() {
                 </div>
                     </div>
             </div>
+            </div>
+            
           </div>
           :
        <p>NO data </p>
