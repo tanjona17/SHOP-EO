@@ -23,8 +23,8 @@ export default function  Home() {
             subject: "",
             message: ""
         },onSubmit: (values, actions) =>{
-         axios.post("http://localhost:1234/api/user/message", values);
-            actions.resetForm()
+         axios.post("http://localhost:1234/api/message", values);
+         actions.resetForm()
         }
     })
     
