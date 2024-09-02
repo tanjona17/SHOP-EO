@@ -10,6 +10,7 @@ import useSWR, { mutate } from "swr";
 import { EyeIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
 import { TOKEN } from "@/redux/api";
+import { User } from "../types/users_type";
 
 const fetcher = (...args: [any]) =>
   fetch(...args, {
@@ -25,7 +26,7 @@ export default function User_list() {
   const { data, error } = useSWR("http://localhost:1234/api/user/", fetcher);
 
   // filters
-  const [selected_user, set_user] = useState([]);
+  const [selected_user, set_user] = useState<User[]>([]);
   const [row_click, set_clicked] = useState<boolean>(true);
   const [globalFilterValue, setGlobalFilterValue] = useState<string>("");
   const [filters, setFilters] = useState({
@@ -38,6 +39,7 @@ export default function User_list() {
   });
   const onGlobalFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    
     let _filters = { ...filters };
 
     // @ts-ignore
@@ -46,11 +48,22 @@ export default function User_list() {
     setFilters(_filters);
     setGlobalFilterValue(value);
   };
+  const get_ids = selected_user.map((x) => [x._id]);
+  const ids = get_ids.flat();
 
-  const handle_delete = async (id: any) => {
+  const handle_delete = async (ids: any) => {
     try {
-      const res = await axios.delete(`http://localhost:1234/api/product/${id}`);
-      console.log("Response:", res.data);
+      const ids_array = Array.isArray(ids) ? ids : [ids];
+      const response = await axios.delete(
+        `http://localhost:1234/api/user/`,
+        {
+          data: { ids: ids_array },
+        }
+      );
+
+      set_user([]);
+
+      mutate(`http://localhost:1234/api/user/`);
     } catch (error) {
       console.error("Error during deletion:", error);
     }
@@ -68,53 +81,49 @@ export default function User_list() {
         {selected_user &&
         selected_user.length > 0 &&
         selected_user.length === 1 ? (
-          <div className="flex justify-center">
-            <button
-              className="px-6 view py-[6px] rounded-lg flex"
-              data-pr-tooltip="View"
-              data-pr-position="right"
-              data-pr-at="right+5 top"
-              data-pr-my="left center-2"
-            >
-              <Tooltip
-                target=".view"
-                className="ml-[-40px] mt-[-10px] opacity-80"
-              />
-              <EyeIcon className="  w-7 h-7" />
-            </button>
-            <button
-              className="bg-purple-500 px-6 py-[6px] mx-3 rounded-lg edit"
-              data-pr-tooltip="Edit"
-              data-pr-position="right"
-              data-pr-at="right+5 top"
-              data-pr-my="left center-2"
-            >
-              <Tooltip
-                target=".edit"
-                className="ml-[-20px] mt-[-10px] opacity-80"
-              />
-              <PencilIcon className="  w-7 h-7" />
-            </button>
-            <button
-              className="bg-red-400 px-6 py-[6px] rounded-lg delete"
-              onClick={() => handle_delete(selected_user[0]._id)}
-              data-pr-tooltip="Delete"
-              data-pr-position="right"
-              data-pr-at="right+5 top"
-              data-pr-my="left center-2"
-            >
-              <Tooltip
-                target=".delete"
-                className="ml-[-15px] mt-[-10px] opacity-80"
-              />
-              <TrashIcon className=" w-7 h-7" />
-            </button>
-          </div>
+          <>
+            {selected_user.map((x) => {
+              return (
+                <>
+                  <div className="flex justify-center" key={x._id}>
+                    <button
+                      className="px-6 view py-[6px] rounded-lg flex"
+                      data-pr-tooltip="View"
+                      data-pr-position="right"
+                      data-pr-at="right+5 top"
+                      data-pr-my="left center-2"
+                    >
+                      <Tooltip
+                        target=".view"
+                        className="ml-[-40px] mt-[-10px] opacity-80"
+                      />
+                      <EyeIcon className="  w-7 h-7" />
+                    </button>
+                  
+                    <button
+                      className="bg-red-400 px-6 py-[6px] rounded-lg delete"
+                      onClick={() => handle_delete(x._id)}
+                      data-pr-tooltip="Delete"
+                      data-pr-position="right"
+                      data-pr-at="right+5 top"
+                      data-pr-my="left center-2"
+                    >
+                      <Tooltip
+                        target=".delete"
+                        className="ml-[-15px] mt-[-10px] opacity-80"
+                      />
+                      <TrashIcon className=" w-7 h-7" />
+                    </button>
+                  </div>
+                </>
+              );
+            })}
+          </>
         ) : selected_user.length > 1 ? (
           <div className="flex justify-center">
             <button
               className="bg-red-400 px-6 py-[6px] rounded-lg delete"
-              onClick={() => handle_delete(selected_user)}
+              onClick={() => handle_delete(ids)}
               data-pr-tooltip="Delete"
               data-pr-position="right"
               data-pr-at="right+5 top"
@@ -134,6 +143,7 @@ export default function User_list() {
     );
   };
   const header = renderHeader();
+
 
   return (
     <>

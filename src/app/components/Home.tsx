@@ -2,7 +2,6 @@
 import Image from 'next/image'
 import React from 'react'
 import Footer from './Footer'
-import '../globals.css'
 import {
     MapPinIcon,
     PhoneIcon,

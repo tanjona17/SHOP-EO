@@ -8,7 +8,8 @@ const config: Config = {
     // Or if using `src` directory:
     './src/**/*.{js,ts,jsx,tsx,mdx}',
     './node_modules/flowbite/**/*.js',
-    './node_modules/preline/dist/*.js'
+    './node_modules/preline/dist/*.js',
+     './node_modules/primereact/**/*.{js,ts,jsx,tsx}'
   ],
   variants: {  
     borderColor: ['responsive', 'hover', 'focus', 'active', 'group-hover'],

@@ -5,24 +5,59 @@ const router = require("express").Router();
 const CryptoJS = require("crypto-js");
 const secret_key = process.env.PASSWORD_KEY;
 const jwt = require("jsonwebtoken");
+const multer = require("multer");
+const path = require("path")
 
-
-router.post("/register", async (req, res) =>{
-    const new_user = new User({
-        username: req.body.username,
-        email: req.body.email,
-        password:  CryptoJS.AES.encrypt(req.body.password, secret_key).toString(),
-       
-    });
+const storage = multer.diskStorage({
+    destination: (req,file,cb) =>{
+      cb(null, "public/db_images")
+    },
+      filename: (req,file, cb) =>{
+        cb(null, file.fieldname + "_" + Date.now() +"_" + file.originalname)
+      }
     
-    try{
-        const saved_user = await new_user.save();
-        res.status(201).json(saved_user);
-    }catch(error){
-        res.status(500).json(error);
-    }
-});
+  
+  });
+  const upload = multer({
+    storage: storage
+  })
 
+// router.post("/register", async (req, res) =>{
+//     const new_user = new User({
+//         username: req.body.username,
+//         email: req.body.email,
+//         password:  CryptoJS.AES.encrypt(req.body.password, secret_key).toString(),
+//         is_admin: req.body.is_admin,
+       
+//     });
+    
+//     try{
+//         const saved_user = await new_user.save();
+//         res.status(201).json(saved_user);
+//     }catch(error){
+//         res.status(500).json(error);
+//     }
+// });
+
+router.post("/register", async (req, res) => {
+    // const isAdmin = req.body.is_admin === 'true';
+    
+    const new_user = new User({
+      username: req.body.username,
+      email: req.body.email,
+      password: CryptoJS.AES.encrypt(req.body.password, secret_key).toString(),
+      is_admin: req.body.is_admin,
+    });
+  
+    try {
+      const saved_user = await new_user.save();
+      res.status(201).json(saved_user);
+    } catch (error) {
+     console.log(error);
+     
+    }
+  });
+  
 router.post("/login", async (req,res) =>{
     try {
 

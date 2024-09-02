@@ -61,8 +61,7 @@ export default function Product_list() {
           data: { ids: ids_array },
         }
       );
-
-      console.log(response.data);
+  set_product([]);
 
       mutate(`http://localhost:1234/api/product/`);
     } catch (error) {

@@ -1,13 +1,13 @@
 "use client";
 import { Inter } from "next/font/google";
 import "./globals.css";
-
+import "primereact/resources/themes/lara-light-blue/theme.css"
 import { Provider } from "react-redux";
 import { store, persistor } from "@/redux/store";
 
 import { PersistGate } from "redux-persist/integration/react";
 
-const inter = Inter({ subsets: ["latin"] });
+
 
 export default function RootLayout({
   children,
