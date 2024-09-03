@@ -39,13 +39,14 @@ const storage = multer.diskStorage({
 //     }
 // });
 
-router.post("/register", async (req, res) => {
+router.post("/register",upload.single("img"), async (req, res) => {
     // const isAdmin = req.body.is_admin === 'true';
     
     const new_user = new User({
       username: req.body.username,
       email: req.body.email,
       password: CryptoJS.AES.encrypt(req.body.password, secret_key).toString(),
+      img: req.file.filename,
       is_admin: req.body.is_admin,
     });
   

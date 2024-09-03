@@ -7,8 +7,6 @@ import * as Yup from "yup";
 import axios from "axios";
 import  trigger, { mutate }  from "swr";
 import useSWR from "swr";
-import { useRouter } from "next/router";
-import { usePathname } from "next/navigation";
 
 export default function Page() {
   const fetcher = (...args: [any]) => fetch(...args).then((res) => res.json());

@@ -18,6 +18,11 @@ const User_schema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    img:{
+        type: String,
+        required: true,
+        default: "default.png"
+    },
     is_admin: {
         type:Boolean,
         required: false,

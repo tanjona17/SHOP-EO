@@ -31,7 +31,7 @@ export default function User_list() {
   const [globalFilterValue, setGlobalFilterValue] = useState<string>("");
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    // username: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
     // 'initial_values.name': { value: null, matchMode: FilterMatchMode.STARTS_WITH },
     // representative: { value: null, matchMode: FilterMatchMode.IN },
     // status: { value: null, matchMode: FilterMatchMode.EQUALS },
@@ -162,7 +162,7 @@ export default function User_list() {
             sortMode="multiple"
             onSelectionChange={(e) => set_user(e.value)}
             stripedRows
-            globalFilterFields={["product_name", "price"]}
+            globalFilterFields={["username"]}
             filters={filters}
             filterDisplay="menu"
           >
