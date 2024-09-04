@@ -11,6 +11,7 @@ import { EyeIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
 import { TOKEN } from "@/redux/api";
 import { User } from "../types/users_type";
+import Image from "next/image";
 
 const fetcher = (...args: [any]) =>
   fetch(...args, {
@@ -24,14 +25,16 @@ const fetcher = (...args: [any]) =>
 export default function User_list() {
   // fetching data
   const { data, error } = useSWR("http://localhost:1234/api/user/", fetcher);
-
+  console.log(data);
+  
   // filters
   const [selected_user, set_user] = useState<User[]>([]);
   const [row_click, set_clicked] = useState<boolean>(true);
   const [globalFilterValue, setGlobalFilterValue] = useState<string>("");
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    // username: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    // username: { value: null, matchMode: FilterMatchMode.CONTAINS },
+
     // 'initial_values.name': { value: null, matchMode: FilterMatchMode.STARTS_WITH },
     // representative: { value: null, matchMode: FilterMatchMode.IN },
     // status: { value: null, matchMode: FilterMatchMode.EQUALS },
@@ -68,6 +71,20 @@ export default function User_list() {
       console.error("Error during deletion:", error);
     }
   };
+  const user_image = (row_data: User) =>{
+    return (
+   
+         <Image className="rounded-full" src={`/db_images/${row_data.img}`}  key={row_data._id} width={40} height={10} alt="user_image"/>
+       
+    )
+  };
+  const user_type = (row_data: User) =>{
+      if (row_data.is_admin) {
+        return <p>Admin</p>
+      }else{
+        return <p>Customer</p>
+      }
+  }
   const renderHeader = () => {
     return (
       <div className="grid grid-cols-2">
@@ -152,7 +169,7 @@ export default function User_list() {
           <h1>List of users</h1>
         </div>
         <div className="grid grid-cols-1 gap-14 mb-4  ">
-          <DataTable
+          <DataTable 
             className="w-full"
             header={header}
             value={data}
@@ -160,19 +177,22 @@ export default function User_list() {
             selection={selected_user!}
             // tableStyle={{width:"850px"}}
             sortMode="multiple"
-            onSelectionChange={(e) => set_user(e.value)}
+            onSelectionChange={(e: { value: React.SetStateAction<User[]>}) => set_user(e.value)}
             stripedRows
-            globalFilterFields={["username"]}
+            globalFilterFields={["username","is_admin"]}
             filters={filters}
             filterDisplay="menu"
+            
           >
             <Column
               selectionMode="multiple"
               headerStyle={{ width: "3rem", border: "5px black" }}
             ></Column>
-            <Column field="_id" header="ID" sortable></Column>
-            <Column field="username" header="Username"></Column>
-            <Column field="email" header="Email"></Column>
+            {/* <Column  field="_id" header="ID" sortable></Column> */}
+            <Column   header="User photo"   body={user_image} ></Column>
+            <Column  field="username" header="Username"></Column>
+            <Column  field="email" header="Email"></Column>
+            <Column field="is_admin"  header="Status" body={user_type} ></Column>
           </DataTable>
         </div>
       </div>

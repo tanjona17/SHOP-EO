@@ -16,7 +16,7 @@ export default function Page() {
       email: "",
       img: null,
       password: "",
-      is_admin: false,
+      is_admin: false ,
     },
     validationSchema: Yup.object({
       username: Yup.string().required("Required"),
@@ -135,6 +135,7 @@ export default function Page() {
             </label>
             <ToggleButton
               name="is_admin"
+             
               checked={new_staff.values.is_admin}
               onChange={(e) => new_staff.setFieldValue("is_admin", e.value)}
             />
