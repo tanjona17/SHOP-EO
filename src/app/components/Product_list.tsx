@@ -13,6 +13,7 @@ import { EyeIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
 import Link from "next/link";
 import { Product_type } from "../types/products_type";
+import Image from "next/image";
 
 export default function Product_list() {
   // fetching data
@@ -30,7 +31,6 @@ export default function Product_list() {
 
   const get_ids = selected_product.map((x) => [x._id]);
   const ids = get_ids.flat();
-  console.log(ids);
 
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -61,12 +61,26 @@ export default function Product_list() {
           data: { ids: ids_array },
         }
       );
-  set_product([]);
+      set_product([]);
 
       mutate(`http://localhost:1234/api/product/`);
     } catch (error) {
       console.error("Error during deletion:", error);
     }
+  };
+
+  const product_image = (row_data: Product_type) => {
+    return (
+      <div className="rounded-full">
+      <Image
+        src={`/db_images/${row_data.img}`}
+        key={row_data._id}
+        width={50}
+        height={50}
+        alt="user_image"
+      />
+      </div>
+    );
   };
 
   const renderHeader = () => {
@@ -188,9 +202,10 @@ export default function Product_list() {
               selectionMode="multiple"
               headerStyle={{ width: "3rem", border: "5px black" }}
             ></Column>
-            <Column field="_id" header="ID" sortable></Column>
-            <Column field="product_name" header="Name"></Column>
-            <Column field="price" header="Price"></Column>
+            {/* <Column field="_id" header="ID" sortable></Column> */}
+            <Column  header="Product image" body={product_image} ></Column>
+            <Column field="product_name" header="Name" sortable></Column>
+            <Column field="price" header="Price" sortable></Column>
           </DataTable>
         </div>
       </div>

@@ -5,7 +5,6 @@ const {objectID} = require("mongodb")
 const multer = require("multer");
 const path = require("path")
 //CREATE
-
 const storage = multer.diskStorage({
   destination: (req,file,cb) =>{
     cb(null, "public/db_images")
@@ -24,8 +23,13 @@ router.post("/register",upload.single("img"),  async (req, res) => {
   const new_product = new Product({
     product_name: req.body.product_name,
     descri: req.body.descri,
+    img: req.body.img,
+    categories: req.body.categories,
     price: req.body.price,
-    img: req.file.filename,
+
+
+    // img: req.file.filename,
+   
   });
 
   try {
@@ -98,8 +102,48 @@ router.put("/", async (req, res) => {
 // });
 
 // GET all product
+// router.get("/", async (req, res) => {
+//   const id = req.query.id;
+//   const categories = req.query.category
+
+  
+//   if (id) {
+//     const objectID = new mongoose.Types.ObjectId(id);
+//     try {
+//       const product = await Product.findById(objectID);
+//       product
+//         ? res.status(200).json(product)
+//         : res.status(404).send("no product matching your search 😥");
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   } else {
+//     try {
+//       const product = await Product.find();
+//       res.status(200).json(product);
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   }
+// });
 router.get("/", async (req, res) => {
   const id = req.query.id;
+  const qnew= req.query.new
+  const qcategory = req.query.categories;
+
+  const qprice = req.query.price;
+
+  if (!id && !qnew && !qcategory && !qprice ) {
+    try {
+      const product = await Product.find();
+      res.status(200).json(product);
+      
+    } catch (error) {
+      console.log(error);
+    }
+  
+  };
+  
   if (id) {
     const objectID = new mongoose.Types.ObjectId(id);
     try {
@@ -110,15 +154,47 @@ router.get("/", async (req, res) => {
     } catch (error) {
       console.log(error);
     }
-  } else {
+  };
+
+  if (qnew) {
+    let product;
     try {
-      const product = await Product.find();
+       product = await Product.find().sort({ createdAt: -1}).limit(1);
       res.status(200).json(product);
+      
     } catch (error) {
       console.log(error);
     }
+    
+  }else if(qcategory){
+    try {
+      product = await Product.find({
+        categories : {$in: [qcategory]}
+      });
+     res.status(200).json(product);
+     
+   } catch (error) {
+     console.log(error);
+   }
+  };
+
+  if (qprice) {
+    const price = qprice.split(",").map(Number);
+    try {
+     const  product = await Product.find({
+        price : {$gte:price[0], $lte: price[1]}
+      });
+     res.status(200).json(product);
+     
+   } catch (error) {
+     console.log(error);
+   }
+    
   }
-});
+
+})
+
+
 
 router.delete("/", async (req, res) => {
   try {
@@ -155,5 +231,7 @@ router.delete("/", async (req, res) => {
     res.status(500).send("An error occurred while deleting items");
   }
 });
+
+router.get("/search")
 
 module.exports = router;
