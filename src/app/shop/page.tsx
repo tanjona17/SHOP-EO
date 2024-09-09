@@ -1,9 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Products_catalogs from "../components/Products_catalogs";
 import {
-  Checkbox,
   Disclosure,
   DisclosureButton,
   DisclosurePanel,
@@ -13,9 +12,62 @@ import {
 } from "@headlessui/react";
 import { XMarkIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
 import { Slider, SliderChangeEvent } from "primereact/slider";
+import { Checkbox, CheckboxChangeEvent } from "primereact/checkbox";
+import { useRouter } from "next/navigation";
+import { useDispatch } from 'react-redux';
+import { add_product } from '@/redux/cart_redux';
+import useSWR, { mutate } from "swr";
+const fetcher = (...args: [any] ) => fetch(...args).then( (res) => res.json());
+
 export default function Page() {
+
+  const router = useRouter();
+  // ["accessories", "shoes", "fashion", "cosmetics",""];
   const [value, set_value] = useState<number[]>([10, 100]);
-  console.log(value);
+  const [selected_categories, set_categories] = useState<string[]>([]);
+  const options = ["accessories", "shoes", "fashion", "cosmetics","woman"];
+  const filters = selected_categories.join(",");
+
+  const {data, error} = useSWR(`http://localhost:1234/api/product?categories=${selected_categories}`, fetcher,{
+    revalidateOnFocus: true
+  });
+  mutate(`http://localhost:1234/api/product?categories=${selected_categories}`);
+  const dispatch = useDispatch();
+  const add_to_cart = () =>{
+    dispatch( add_product({data}))
+  }
+
+
+  // { name: "accessories,"key: "ac"},
+  // { name: "shoes", key: "sh"},
+  // { name: "fashion", key: "fa"},
+  // { name: "cosmetics", key: "co"},
+
+
+
+  const handle_checkbox = (e: CheckboxChangeEvent) => {
+    const value: string = e.target.value;
+
+    if (e.target.checked) {
+      set_categories([...selected_categories, value]);
+      //  router.replace(`http://localhost:3000/shop?${selected_categories}`);
+    } else {
+      set_categories(selected_categories.filter((item) => item !== value));
+    }
+  };
+
+  console.log(selected_categories);
+
+  useEffect(() => {
+    selected_categories.length < 0 
+      ? router.push("http://localhost:3000/shop?new=true")  
+      : router.replace(`http://localhost:3000/shop?categories=${selected_categories}`);
+      
+  }, [selected_categories, router]);
+
+  const search = () =>{
+
+  }
 
   return (
     <>
@@ -39,7 +91,7 @@ export default function Page() {
               leaveTo="opacity-0 -translate-y-6"
             >
               <DisclosurePanel className="text-gray-500 transition">
-                <Field>
+                {/* <Field>
                   <div className="flex items-center">
                     <Checkbox
                       defaultChecked={false}
@@ -136,6 +188,23 @@ export default function Page() {
                       Cosmetics
                     </Label>
                   </div>
+                </Field> */}
+                <Field>
+                  {options.map((option) => {
+                    return (
+                      <div key={option} className="flex items-center">
+                        <Checkbox
+                          name="option"
+                          value={option}
+                          onChange={handle_checkbox}
+                          checked={selected_categories.some(
+                            (item) => item === option
+                          )}
+                        />
+                        <label htmlFor={option}>{option}</label>
+                      </div>
+                    );
+                  })}
                 </Field>
               </DisclosurePanel>
             </Transition>
@@ -165,23 +234,24 @@ export default function Page() {
                       </div>
                     </div>
                     <div className="w-50 mt-2">
-                    <Slider
-                      value={value}
-                      onChange={(e: SliderChangeEvent) => set_value(e.value)}
-                      max={1200}
-                      step={10}
-                      range
-                    />
+                      <Slider
+                        value={value}
+                        onChange={(e: SliderChangeEvent) => set_value(e.value)}
+                        max={1200}
+                        step={10}
+                        range
+                      />
                     </div>
-                  
                   </div>
                 </Field>
               </DisclosurePanel>
             </Transition>
           </Disclosure>
+
+          <button onClick={search}>Fetch</button>
         </div>
         <div className="bg-white w-full rounded-[15px]">
-          <Products_catalogs />
+          <Products_catalogs data={data} error={error} />
         </div>
       </div>
 

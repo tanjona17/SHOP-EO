@@ -167,16 +167,31 @@ router.get("/", async (req, res) => {
     }
     
   }else if(qcategory){
+    
+    const {categories} = req.query;
+
+    const is_array = Array.isArray(categories) ? categories : categories.split(",");
+
+    // const categories = qcategory.split(",").map(String);
     try {
-      product = await Product.find({
-        categories : {$in: [qcategory]}
-      });
-     res.status(200).json(product);
+      // for (let i = 0; i < categories.length; i++) {
+
+        product = await Product.find({
+          categories : {$in:is_array }
+        });
+        res.status(200).json(product);
+      // }
+    
+     
      
    } catch (error) {
      console.log(error);
    }
   };
+
+
+
+
 
   if (qprice) {
     const price = qprice.split(",").map(Number);

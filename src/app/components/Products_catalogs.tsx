@@ -10,15 +10,20 @@ import { useDispatch } from 'react-redux';
 import { add_product } from '@/redux/cart_redux';
 const fetcher = (...args: [any] ) => fetch(...args).then( (res) => res.json());
 
-export default function ProuctsCatalogs() {
-  const {data, error} = useSWR(`http://localhost:1234/api/product/`, fetcher,{
-    revalidateOnFocus: true
-  });
-  mutate("http://localhost:1234/api/product");
-  const dispatch = useDispatch();
-  const add_to_cart = () =>{
-    dispatch( add_product({data}))
-  }
+interface Props{
+  data: [];
+  error:string
+}
+
+export default function ProuctsCatalogs(props: Props) {
+  // const {data, error} = useSWR(`http://localhost:1234/api/product/`, fetcher,{
+  //   revalidateOnFocus: true
+  // });
+  // mutate("http://localhost:1234/api/product");
+  // const dispatch = useDispatch();
+  // const add_to_cart = () =>{
+  //   dispatch( add_product({data}))
+  // }
 
   
   
@@ -27,7 +32,7 @@ export default function ProuctsCatalogs() {
    <div className="flex justify-center grid grid-cols-3 ml-[120px] mt-[35px]   ">
 
    {  
-      data ?   data.map( (x: Product_type)  =>{
+      props.data ?   props.data.map( (x: Product_type)  =>{
         return (
         // eslint-disable-next-line react/jsx-key
         <div className="   
@@ -64,7 +69,7 @@ export default function ProuctsCatalogs() {
       </div>
         )
         
-      }) : <p>{error}</p>
+      }) : <p>{props.error}</p>
      
   }
         
