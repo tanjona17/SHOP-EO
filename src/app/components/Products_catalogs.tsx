@@ -32,7 +32,7 @@ export default function ProuctsCatalogs(props: Props) {
    <div className="flex justify-center grid grid-cols-3 ml-[120px] mt-[35px]   ">
 
    {  
-      props.data ?   props.data.map( (x: Product_type)  =>{
+      props.data && props.data.length > 0 ?   props.data.map( (x: Product_type)  =>{
         return (
         // eslint-disable-next-line react/jsx-key
         <div className="   
@@ -66,10 +66,10 @@ export default function ProuctsCatalogs(props: Props) {
             <ShoppingCartIcon className=" w-[35px] p-2 ml-5 rounded-lg text-white bg-[#5B6EE8]"/>
           </button> */}
         </div>
-      </div>
+        </div>
         )
         
-      }) : <p>{props.error}</p>
+      }) : <div className='mt-20 w-full text-center col-span-3'>Sorry there is no product matching your search! 😢 </div>
      
   }
         

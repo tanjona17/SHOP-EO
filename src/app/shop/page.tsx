@@ -23,15 +23,15 @@ export default function Page() {
 
   const router = useRouter();
   // ["accessories", "shoes", "fashion", "cosmetics",""];
-  const [value, set_value] = useState<number[]>([10, 100]);
+  const [price, set_price] = useState<number[]>([10, 100]);
   const [selected_categories, set_categories] = useState<string[]>([]);
   const options = ["accessories", "shoes", "fashion", "cosmetics","woman"];
   const filters = selected_categories.join(",");
 
-  const {data, error} = useSWR(`http://localhost:1234/api/product?categories=${selected_categories}`, fetcher,{
+  const {data, error} = useSWR(`http://localhost:1234/api/product?categories=${selected_categories}&price=${price}`, fetcher,{
     revalidateOnFocus: true
   });
-  mutate(`http://localhost:1234/api/product?categories=${selected_categories}`);
+  // mutate(`http://localhost:1234/api/product?categories=${selected_categories}&price=${price}`);
   const dispatch = useDispatch();
   const add_to_cart = () =>{
     dispatch( add_product({data}))
@@ -56,14 +56,13 @@ export default function Page() {
     }
   };
 
-  console.log(selected_categories);
+  console.log(selected_categories );
 
   useEffect(() => {
-    selected_categories.length < 0 
-      ? router.push("http://localhost:3000/shop?new=true")  
-      : router.replace(`http://localhost:3000/shop?categories=${selected_categories}`);
-      
-  }, [selected_categories, router]);
+    selected_categories.length === 0 && price
+      ? router.push("http://localhost:3000/shop")   
+      : router.replace(`http://localhost:3000/shop?categories=${selected_categories}&price=${price}`);    
+  }, [selected_categories,price, router]);
 
   const search = () =>{
 
@@ -227,16 +226,16 @@ export default function Page() {
                   <div className="">
                     <div className="flex justify-between px-2">
                       <div>
-                        <p>${value[0]}</p>
+                        <p>${price[0]}</p>
                       </div>
                       <div>
-                        <p>${value[1]}</p>
+                        <p>${price[1]}</p>
                       </div>
                     </div>
                     <div className="w-50 mt-2">
                       <Slider
-                        value={value}
-                        onChange={(e: SliderChangeEvent) => set_value(e.value)}
+                        value={price}
+                        onChange={(e: SliderChangeEvent) => set_price(e.value)}
                         max={1200}
                         step={10}
                         range
