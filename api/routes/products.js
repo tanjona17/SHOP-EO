@@ -124,81 +124,105 @@ router.put("/", async (req, res) => {
 //     }
 //   }
 // });
+
 // original
-// router.get("/", async (req, res) => {
-//   const id = req.query.id;
-//   const qnew= req.query.new
-//   const qcategory = req.query.categories;
-//   const qprice = req.query.price;
+router.get("/", async (req, res) => {
+  const id = req.query.id;
+  const qnew= req.query.new
+  const qcategory = req.query.categories;
+  const qprice = req.query.price;
 
-//   if (!id && !qnew && !qcategory && !qprice ) {
-//     try {
-//       const product = await Product.find();
-//       res.status(200).json(product);
+  if (!id && !qnew && !qcategory && !qprice ) {
+    try {
+      const product = await Product.find();
+      return res.status(200).json(product);
       
-//     } catch (error) {
-//       console.log(error);
-//     }
+    } catch (error) {
+      console.log(error);
+    }
   
-//   };
+  };
   
-//   if (id) {
-//     const objectID = new mongoose.Types.ObjectId(id);
-//     try {
-//       const product = await Product.findById(objectID);
-//       product
-//         ? res.status(200).json(product)
-//         : res.status(404).send("no product matching your search 😥");
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
+  if (id) {
+    const objectID = new mongoose.Types.ObjectId(id);
+    try {
+      const product = await Product.findById(objectID);
+      product
+        ? res.status(200).json(product)
+        : res.status(404).send("no product matching your search 😥");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-//   if (qnew) {
-//     let product;
-//     try {
-//        product = await Product.find().sort({ createdAt: -1}).limit(1);
-//       res.status(200).json(product);
+  if (qnew) {
+    let product;
+    try {
+       product = await Product.find().sort({ createdAt: -1}).limit(1);
+       return res.status(200).json(product);
       
-//     } catch (error) {
-//       console.log(error);
-//     }
+    } catch (error) {
+      console.log(error);
+    }
     
-//   }
-//    if(qcategory){
-    
-//     const {categories} = req.query;
+  }
 
-//     const is_array = Array.isArray(categories) ? categories : categories.split(",");
-//     try {
-//         product = await Product.find({
-//           categories : {$in:is_array }
-//         });
-//         res.status(200).json(product);
-//       // }
+  if (qprice && qcategory) {
+    const {price, categories} = req.query;
+    const is_array = Array.isArray(categories) ? categories : categories.split(",");
+    const p = price.split(",").map(Number);
+  
+    try {
+      const  product = await Product.find({
+        categories : {$in:is_array},
+         price : {$gte:p[0], $lte: p[1]}
+       });
+     return res.status(200).json(product);
+     
+      
+    } catch (error) {
+      console.log(error);
+    }
     
-     
-     
-//    } catch (error) {
-//      console.log(error);
-//    }
-//   } 
+    
+  }
+  
+   if(qcategory){
+    
+    const {categories} = req.query;
 
-// if (qprice) {
-//     const price = qprice.split(",").map(Number);
-//     try {
-//      const  product = await Product.find({
-//         price : {$gte:price[0], $lte: price[1]}
-//       });
-//      res.status(200).json(product);
-//      return;
-     
-//    } catch (error) {
-//      console.log(error);
-//    }
+    const is_array = Array.isArray(categories) ? categories : categories.split(",");
+    try {
+        product = await Product.find({
+          categories : {$in:is_array }
+        });
+        return res.status(200).json(product);
+      // }
     
-//   }
-// });
+     
+     
+   } catch (error) {
+     console.log(error);
+   }
+  } 
+
+if (qprice) {
+    const price = qprice.split(",").map(Number);
+    try {
+     const  product = await Product.find({
+        price : {$gte:price[0], $lte: price[1]}
+      });
+    return res.status(200).json(product);
+    
+     
+   } catch (error) {
+     console.log(error);
+   }
+    
+  }
+
+
+});
 
 
 

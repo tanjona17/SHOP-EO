@@ -26,10 +26,11 @@ export default function ProuctsCatalogs(props: Props) {
   // }
 
   
+
   
   return (
-    <>
-   <div className="flex justify-center grid grid-cols-3 ml-[120px] mt-[35px]   ">
+    <>  
+   <div className=" justify-center grid grid-cols-3 ml-[120px] mt-[35px]   ">
 
    {  
       props.data && props.data.length > 0 ?   props.data.map( (x: Product_type)  =>{

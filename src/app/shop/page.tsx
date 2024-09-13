@@ -23,7 +23,7 @@ export default function Page() {
 
   const router = useRouter();
   // ["accessories", "shoes", "fashion", "cosmetics",""];
-  const [price, set_price] = useState<number[]>([10, 100]);
+  const [price, set_price] = useState<number[]>([20, 150]);
   const [selected_categories, set_categories] = useState<string[]>([]);
   const options = ["accessories", "shoes", "fashion", "cosmetics","woman"];
   const filters = selected_categories.join(",");
@@ -31,7 +31,7 @@ export default function Page() {
   const {data, error} = useSWR(`http://localhost:1234/api/product?categories=${selected_categories}&price=${price}`, fetcher,{
     revalidateOnFocus: true
   });
-  // mutate(`http://localhost:1234/api/product?categories=${selected_categories}&price=${price}`);
+      // mutate(`http://localhost:1234/api/product?categories=${selected_categories}&price=${price}`);
   const dispatch = useDispatch();
   const add_to_cart = () =>{
     dispatch( add_product({data}))
@@ -56,7 +56,6 @@ export default function Page() {
     }
   };
 
-  console.log(selected_categories );
 
   useEffect(() => {
     selected_categories.length === 0 && price
@@ -200,7 +199,7 @@ export default function Page() {
                             (item) => item === option
                           )}
                         />
-                        <label htmlFor={option}>{option}</label>
+                        <label className="ml-1" htmlFor={option}>{option }</label>
                       </div>
                     );
                   })}
