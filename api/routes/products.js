@@ -131,8 +131,9 @@ router.get("/", async (req, res) => {
   const qnew= req.query.new
   const qcategory = req.query.categories;
   const qprice = req.query.price;
+  const qname =  req.query.q;
 
-  if (!id && !qnew && !qcategory && !qprice ) {
+  if (!id && !qnew && !qcategory && !qprice && !qname) {
     try {
       const product = await Product.find();
       return res.status(200).json(product);
@@ -142,6 +143,42 @@ router.get("/", async (req, res) => {
     }
   
   };
+  // if (qname) {
+  //   try {
+  //     // Use findOne to return a single product by its name
+  //     const product = await Product.findOne({
+  //       product_name: qname
+  //     });
+  
+  //     if (!product) {
+  //       return res.status(404).json({ message: 'Product not found' });
+  //     }
+  
+  //     return res.status(200).json(product);
+      
+  //   } catch (error) {
+  //     console.error(error);
+  //     return res.status(500).json({ message: 'Server error' });
+  //   }
+  // }
+  if (qname) {
+    try {
+      // Use a regex to search for partial matches and ignore case sensitivity
+      const product = await Product.find({
+        product_name: { $regex: new RegExp(qname, "i") } // "i" makes it case-insensitive
+      });
+  
+      if (product.length === 0) {
+        return res.status(404).json({ message: 'Product not found' });
+      }
+  
+      return res.status(200).json(product);
+      
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Server error' });
+    }
+  }
   
   if (id) {
     const objectID = new mongoose.Types.ObjectId(id);
@@ -167,13 +204,14 @@ router.get("/", async (req, res) => {
     
   }
 
-  if (qprice && qcategory) {
-    const {price, categories} = req.query;
+  if (qname && qprice && qcategory) {
+    const {qname, price, categories} = req.query;
     const is_array = Array.isArray(categories) ? categories : categories.split(",");
     const p = price.split(",").map(Number);
   
     try {
       const  product = await Product.find({
+        product_name : qname,
         categories : {$in:is_array},
          price : {$gte:p[0], $lte: p[1]}
        });

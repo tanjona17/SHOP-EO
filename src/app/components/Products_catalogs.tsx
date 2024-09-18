@@ -12,22 +12,12 @@ const fetcher = (...args: [any] ) => fetch(...args).then( (res) => res.json());
 
 interface Props{
   data: [];
-  error:string
+  error:string;
+ 
 }
 
 export default function ProuctsCatalogs(props: Props) {
-  // const {data, error} = useSWR(`http://localhost:1234/api/product/`, fetcher,{
-  //   revalidateOnFocus: true
-  // });
-  // mutate("http://localhost:1234/api/product");
-  // const dispatch = useDispatch();
-  // const add_to_cart = () =>{
-  //   dispatch( add_product({data}))
-  // }
 
-  
-
-  
   return (
     <>  
    <div className=" justify-center grid grid-cols-3 ml-[120px] mt-[35px]   ">
@@ -71,9 +61,11 @@ export default function ProuctsCatalogs(props: Props) {
         )
         
       }) : <div className='mt-20 w-full text-center col-span-3'>Sorry there is no product matching your search! 😢 </div>
-     
+
   }
-        
+
+  
+      
     </div>
     </>
   )

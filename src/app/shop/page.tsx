@@ -1,6 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
+import React, { useContext, useEffect, useState } from "react";
+
 import Products_catalogs from "../components/Products_catalogs";
 import {
   Disclosure,
@@ -13,17 +13,25 @@ import {
 import { XMarkIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
 import { Slider, SliderChangeEvent } from "primereact/slider";
 import { Checkbox, CheckboxChangeEvent } from "primereact/checkbox";
-import { useRouter } from "next/navigation";
-import { useDispatch } from 'react-redux';
+import { useRouter, useSearchParams } from "next/navigation";
+import { useDispatch, useSelector } from 'react-redux';
 import { add_product } from '@/redux/cart_redux';
 import useSWR, { mutate } from "swr";
+import Navbar from "../components/Navbar";
+import { ProgressSpinner } from "primereact/progressspinner";
+
 const fetcher = (...args: [any] ) => fetch(...args).then( (res) => res.json());
 
 export default function Page() {
 
   const router = useRouter();
   // ["accessories", "shoes", "fashion", "cosmetics",""];
+
   const [price, set_price] = useState<number[]>([20, 150]);
+
+  const q = useSearchParams().get('q') || "";
+
+
   const [selected_categories, set_categories] = useState<string[]>([]);
   const options = ["accessories", "shoes", "fashion", "cosmetics","woman"];
   const filters = selected_categories.join(",");
@@ -31,26 +39,20 @@ export default function Page() {
   const {data, error} = useSWR(`http://localhost:1234/api/product?categories=${selected_categories}&price=${price}`, fetcher,{
     revalidateOnFocus: true
   });
-      // mutate(`http://localhost:1234/api/product?categories=${selected_categories}&price=${price}`);
+  const [is_loading, set_loading] = useState<boolean>(true);
+
+
   const dispatch = useDispatch();
+
   const add_to_cart = () =>{
     dispatch( add_product({data}))
   }
 
-
-  // { name: "accessories,"key: "ac"},
-  // { name: "shoes", key: "sh"},
-  // { name: "fashion", key: "fa"},
-  // { name: "cosmetics", key: "co"},
-
-
-
+ 
   const handle_checkbox = (e: CheckboxChangeEvent) => {
     const value: string = e.target.value;
-
     if (e.target.checked) {
       set_categories([...selected_categories, value]);
-      //  router.replace(`http://localhost:3000/shop?${selected_categories}`);
     } else {
       set_categories(selected_categories.filter((item) => item !== value));
     }
@@ -58,26 +60,37 @@ export default function Page() {
 
 
   useEffect(() => {
-    selected_categories.length === 0 && price
+    selected_categories.length === 0 && !price && !q
       ? router.push("http://localhost:3000/shop")   
-      : router.replace(`http://localhost:3000/shop?categories=${selected_categories}&price=${price}`);    
-  }, [selected_categories,price, router]);
+      : router.replace(`http://localhost:3000/shop?q=${q}&categories=${selected_categories}&price=${price}`);    
+      
+  }, [selected_categories,price, router,q]);
 
-  const search = () =>{
+  useEffect(() => {
+    const timer =  setTimeout(()=>{
+      set_loading(false) 
+    }, 10000);
+    
+    return () => {
+      clearTimeout(timer)
+    };
+  }, [data, error,selected_categories,price, router,q]);
 
-  }
-
+  
+ 
   return (
     <>
       <Navbar title={"Shop-Eo"} />
-      <div className="flex gap-5 mt-5 h-screen ">
-        <div className="bg-white w-[350px]  ml-3 rounded-[15px] pt-3 px-3">
+      <div className="flex gap-5 mt-5  ">
+        <div className="bg-white w-[350px]  ml-3 rounded-[15px] pt-3 px-3 h-screen">
           <p className="text-[#13304D] font-bold text-[20px] text-center">
             Filter
+          
           </p>
           <Disclosure>
             <DisclosureButton className="flex justify-between w-50 items-center w-full p-2 mt-5 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 font-semibold ">
               Categories
+    
               <ChevronDownIcon className="w-5 ml-5 group-data-[open]:rotate-180" />
             </DisclosureButton>
             <Transition
@@ -245,11 +258,11 @@ export default function Page() {
               </DisclosurePanel>
             </Transition>
           </Disclosure>
-
-          <button onClick={search}>Fetch</button>
         </div>
         <div className="bg-white w-full rounded-[15px]">
-          <Products_catalogs data={data} error={error} />
+          {is_loading ? <div className='mt-20 w-full text-center col-span-3'> <ProgressSpinner style={{width:'50px', height: "50px"}} strokeWidth="8" fill="var(--surface-ground)"/> </div> :
+          <Products_catalogs data={data} error={error}  />
+        }
         </div>
       </div>
 

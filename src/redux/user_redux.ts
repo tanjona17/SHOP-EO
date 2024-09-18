@@ -6,6 +6,7 @@ const user_slice = createSlice({
     initialState: {
         current_user: null,
         is_fetching: false,
+        // search_input: "",
         error: false,
     },
     reducers: {
@@ -22,7 +23,12 @@ const user_slice = createSlice({
             state.error = true;
 
         },
-    }
+        // input_reducer: (state, action) =>{
+           
+ 
+        //     state.search_input = action.payload
+        // }
+    },
 });
 
 export const {login_start, login_success, login_failed} = user_slice.actions;
