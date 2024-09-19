@@ -26,6 +26,8 @@ export default function Page() {
 
   const router = useRouter();
   // ["accessories", "shoes", "fashion", "cosmetics",""];
+  console.log(router);
+  
 
   const [price, set_price] = useState<number[]>([20, 150]);
 
@@ -66,17 +68,8 @@ export default function Page() {
       
   }, [selected_categories,price, router,q]);
 
-  useEffect(() => {
-    const timer =  setTimeout(()=>{
-      set_loading(false) 
-    }, 10000);
-    
-    return () => {
-      clearTimeout(timer)
-    };
-  }, [data, error,selected_categories,price, router,q]);
-
   
+   
  
   return (
     <>
@@ -260,9 +253,9 @@ export default function Page() {
           </Disclosure>
         </div>
         <div className="bg-white w-full rounded-[15px]">
-          {is_loading ? <div className='mt-20 w-full text-center col-span-3'> <ProgressSpinner style={{width:'50px', height: "50px"}} strokeWidth="8" fill="var(--surface-ground)"/> </div> :
+          {/* {is_loading ? <div className='mt-20 w-full text-center col-span-3'> <ProgressSpinner style={{width:'50px', height: "50px"}} strokeWidth="8"  fill="var(--surface-ground)"/> </div> : */}
           <Products_catalogs data={data} error={error}  />
-        }
+        {/* } */}
         </div>
       </div>
 

@@ -31,6 +31,7 @@ export default function ProuctsCatalogs(props: Props) {
         overflow-hidden shadow-lg 
         rounded-tr-[7px] rounded-tl-[7px] 
         rounded-br-[15px] rounded-bl-[15px]
+        animate__animated animate__pulse 
         mt-5"
         key={x._id}>
           <div className='flex w-[250px] h-[250px] justify-center p-3'>
@@ -60,7 +61,7 @@ export default function ProuctsCatalogs(props: Props) {
         </div>
         )
         
-      }) : <div className='mt-20 w-full text-center col-span-3'>Sorry there is no product matching your search! 😢 </div>
+      }) : <div className='mt-20 w-full text-center col-span-3 animate__animated animate__fadeIn'>Sorry there is no product matching your search! 😢 </div>
 
   }
 
