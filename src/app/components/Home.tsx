@@ -12,8 +12,13 @@ import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import { useFormik } from 'formik'
 import axios from 'axios'
+import useSWR from 'swr'
 
+const fetcher = (...args: [any] ) => fetch(...args).then( (res) => res.json());
 export default function  Home() {
+    const { data, error } = useSWR(`http://localhost:1234/api/product?new=true`, fetcher, {
+        revalidateOnFocus: true,
+      });
 
     const new_message = useFormik({
         initialValues:{
@@ -86,7 +91,7 @@ export default function  Home() {
         '>
             Explore our products
         </p>
-        <Products_catalogs/>
+        <Products_catalogs data={data} error={error}/>
         <p className='
         mt-10 ml-10
         text-[#13304D] font-semibold

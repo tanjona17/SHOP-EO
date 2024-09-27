@@ -10,8 +10,29 @@ import Side_bar from "../components/Side_bar";
 import Line_chart from "../components/Line_chart";
 import Apex_line from "../components/Apex_line";
 import { useRouter } from "next/navigation";
+import useSWR from "swr";
+import { Product_type } from "../types/products_type";
+import { User } from "../types/users_type";
+import { TOKEN } from "@/redux/api";
+
+const fetcher = (...args: [any]) =>
+  fetch(...args, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      token: `Bearer ${TOKEN}`, // get user token
+    },
+  }).then((res) => res.json());
+
 
 export default function Page() {
+  const {data: users, error: users_error} = useSWR(`http://localhost:1234/api/user?new=true`,fetcher,{
+    revalidateOnFocus:true
+  });
+  const {data: products, error:products_error} = useSWR(`http://localhost:1234/api/product?new=true`,fetcher,{
+    revalidateOnFocus:true
+  })
+
   return (
     <>
       <Navbar title={"ShopAdmin"} />
@@ -47,28 +68,31 @@ export default function Page() {
         <div className="grid grid-cols-2 gap-14 mb-4 h-[350px] mt-[40px]  ">
           <div className="bg-white  px-5 py-5 mt-3 overflow-y-scroll [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
             <h1>New members</h1>
-            <div className="flex px-7 mb-7 align-c justify-between  border-b-2 border-gray-200">
-              <div className="py-3 ">
-                <img
-                  className="w-10 h-10 rounded-full"
-                  src="/user.jpg"
-                  alt="user photo"
-                />
-              </div>
+            { users ? users.map((user: User) => {
+              return   <div className="flex px-7 mb-7 align-c justify-between  border-b-2 border-gray-200" key={user._id}>
+                <div className="py-3 ">
+                  <img
+                    className="w-10 h-10 rounded-full"
+                    src="/user.jpg"
+                    alt="user photo"
+                  />
+                </div>
+  
+                <div className=" pt-5">
+                  <p>{user.username}  | {user.email} </p>
+                </div>
+                <div className="flex justify-center py-3">
+                  <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-full">
+                    Show
+                  </button>
+                </div>
+              </div> 
 
-              <div className=" pt-5">
-                <p>Jhon | Jhon@gmail.com </p>
-              </div>
-              <div className="flex justify-center py-3">
-                <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-full">
-                  Show
-                </button>
-              </div>
-            </div>
+            }): ""}
           </div>
           <div className="bg-white  px-5 py-5 mt-3 overflow-y-scroll [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
             <h1>Latest products</h1>
-            <div className="flex px-7 mb-7 align-c justify-between  border-b-2 border-gray-200">
+            {/* <div className="flex px-7 mb-7 align-c justify-between  border-b-2 border-gray-200">
               <div className="py-3 ">
                 <img
                   className="w-10 h-10 rounded-full"
@@ -85,7 +109,30 @@ export default function Page() {
                   Show
                 </button>
               </div>
-            </div>
+            </div> */}
+
+            { products ?products.map((prod: Product_type) => {
+              return   <div className="flex px-7 mb-7 align-c justify-between  border-b-2 border-gray-200" key={prod._id}>
+                <div className="py-3 ">
+                  <img
+                    className="w-10 h-10 rounded-full"
+                    src="/user.jpg"
+                    alt="user photo"
+                  />
+                </div>
+  
+                <div className=" pt-5">
+                  <p>{prod.product_name} </p>
+                </div>
+                <div className="flex justify-center py-3">
+                  <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-full">
+                    Show
+                  </button>
+                </div>
+              </div> 
+
+            }): ""}
+
           </div>
         </div>
       </div>

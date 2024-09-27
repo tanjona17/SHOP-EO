@@ -132,7 +132,6 @@ router.get("/", async (req, res) => {
   const qcategory = req.query.categories;
   const qprice = req.query.price;
   const qname =  req.query.q;
-
   if (!id && !qnew && !qcategory && !qprice && !qname) {
     try {
       const product = await Product.find();
@@ -143,6 +142,57 @@ router.get("/", async (req, res) => {
     }
   
   };
+  if (qname && qprice && qcategory) {
+
+    const is_array = Array.isArray(qcategory) ? qcategory : qcategory.split(",");
+    const p = qprice.split(",").map(Number);
+  
+    try {
+      const  product = await Product.find({
+        product_name : qname,
+        categories : {$in:is_array},
+         price : {$gte:p[0], $lte: p[1]}
+       });
+
+       if (product.length === 0) {
+        return res.status(404).json({ message: 'Product not found' });
+      }
+  
+      return res.status(200).json(product);
+     
+      
+    } catch (error) {
+      console.log(error);
+    }
+    
+    
+  }
+  if (qname && qcategory) {
+
+    const is_array = Array.isArray(qcategory) ? qcategory : qcategory.split(",");
+    try {
+      const  product = await Product.find({
+        product_name : qname,
+        categories : {$in:is_array},
+       });
+
+   
+     if (product.length === 0) {
+        return res.status(404).json({ message: 'Product not found' });
+      }
+  
+      return res.status(200).json(product);
+      
+    } catch (error) {
+    
+      console.log(error);
+    }
+    
+    
+  }
+  
+
+ 
   // if (qname) {
   //   try {
   //     // Use findOne to return a single product by its name
@@ -195,7 +245,7 @@ router.get("/", async (req, res) => {
   if (qnew) {
     let product;
     try {
-       product = await Product.find().sort({ createdAt: -1}).limit(1);
+       product = await Product.find().sort({ _id: -1}).limit(5);
        return res.status(200).json(product);
       
     } catch (error) {
@@ -204,26 +254,7 @@ router.get("/", async (req, res) => {
     
   }
 
-  if (qname && qprice && qcategory) {
-    const {qname, price, categories} = req.query;
-    const is_array = Array.isArray(categories) ? categories : categories.split(",");
-    const p = price.split(",").map(Number);
-  
-    try {
-      const  product = await Product.find({
-        product_name : qname,
-        categories : {$in:is_array},
-         price : {$gte:p[0], $lte: p[1]}
-       });
-     return res.status(200).json(product);
-     
-      
-    } catch (error) {
-      console.log(error);
-    }
-    
-    
-  }
+ 
   
    if(qcategory){
     

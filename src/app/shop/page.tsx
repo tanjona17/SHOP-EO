@@ -22,6 +22,7 @@ import { ProgressSpinner } from "primereact/progressspinner";
 
 const fetcher = (...args: [any] ) => fetch(...args).then( (res) => res.json());
 
+
 export default function Page() {
 
   const router = useRouter();
@@ -29,7 +30,7 @@ export default function Page() {
   console.log(router);
   
 
-  const [price, set_price] = useState<number[]>([20, 150]);
+  const [price, set_price] = useState<number[]>([20, 500]);
 
   const q = useSearchParams().get('q') || "";
 
@@ -38,18 +39,8 @@ export default function Page() {
   const options = ["accessories", "shoes", "fashion", "cosmetics","woman"];
   const filters = selected_categories.join(",");
 
-  const {data, error} = useSWR(`http://localhost:1234/api/product?categories=${selected_categories}&price=${price}`, fetcher,{
-    revalidateOnFocus: true
-  });
-  const [is_loading, set_loading] = useState<boolean>(true);
-
-
+   
   const dispatch = useDispatch();
-
-  const add_to_cart = () =>{
-    dispatch( add_product({data}))
-  }
-
  
   const handle_checkbox = (e: CheckboxChangeEvent) => {
     const value: string = e.target.value;
@@ -60,15 +51,72 @@ export default function Page() {
     }
   };
 
+    const buildURL = () => {
+    let baseURL = "http://localhost:1234/api/product?";
+    
+    if (q) {
+      baseURL += `q=${q}&`;
+    }
+    if (selected_categories) {
+      baseURL += `categories=${selected_categories}&`;
+    }
+  
+    if (price) {
+      baseURL += `price=${price}&`;
+    }
+  
+    return baseURL.slice(0, -1); // Removes the trailing '&' or '?' if no params
+  };
+  
+  const { data, error } = useSWR(buildURL(), fetcher, {
+    revalidateOnFocus: true,
+  });
+  console.log(buildURL());
+  
+  
 
-  useEffect(() => {
-    selected_categories.length === 0 && !price && !q
-      ? router.push("http://localhost:3000/shop")   
-      : router.replace(`http://localhost:3000/shop?q=${q}&categories=${selected_categories}&price=${price}`);    
+  // const {data, error} = useSWR(`http://localhost:1234/api/product?categories=${selected_categories}&price=${price}`, fetcher,{
+  //   revalidateOnFocus: true
+  // });
+
+
+
+
+  // useEffect(() => {
+
+  //     ? router.push("http://localhost:3000/shop")   
+  //     : router.replace(`http://localhost:3000/shop?q=${q}&categories=${selected_categories}&price=${price}`);   
       
-  }, [selected_categories,price, router,q]);
+      
+      
+  // }, [selected_categories,price, router,q]);
+  useEffect(() => {
+    let query = ``;
+
+    if (q) {
+      query += `q=${q}`;
+    }
+  
+    if (selected_categories.length > 0) {
+      query += `&categories=${selected_categories}`;
+    }
+  
+    if (price) {
+      query += `&price=${price}`;
+    }
+  
+ 
+      router.replace(`http://localhost:3000/shop?${query}`);
+    
+  
+
+    
+  }, [selected_categories, price, router, q]);
+  
+
 
   
+
    
  
   return (

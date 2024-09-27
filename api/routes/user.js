@@ -78,9 +78,18 @@ router.get("/search/:id", verify_token, async (req, res) => {
 // Get all user
 
 router.get("/", verify_token, async (req, res) => {
+  const qnew = req.query.new;
+  if (qnew) {
+    try {
+      const user = await User.find().sort({_id: -1}).limit(5);
+      return res.status(200).json(user);
+    } catch (error) {
+      console.log(error);
+    }
+  } 
   try {
     const user = await User.find();
-    res.status(200).json(user);
+   return res.status(200).json(user);
   } catch (error) {
     console.log(error);
   }

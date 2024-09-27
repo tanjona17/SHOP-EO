@@ -6,9 +6,8 @@ import Link from 'next/link';
 import useSWR, { mutate } from 'swr';
 import { Product_type } from "@/app/types/products_type";
 
-import { useDispatch } from 'react-redux';
-import { add_product } from '@/redux/cart_redux';
-const fetcher = (...args: [any] ) => fetch(...args).then( (res) => res.json());
+
+
 
 interface Props{
   data: [];
@@ -25,7 +24,7 @@ export default function ProuctsCatalogs(props: Props) {
    {  
       props.data && props.data.length > 0 ?   props.data.map( (x: Product_type)  =>{
         return (
-        // eslint-disable-next-line react/jsx-key
+        
         <div className="   
         w-[250px] bg-white
         overflow-hidden shadow-lg 
