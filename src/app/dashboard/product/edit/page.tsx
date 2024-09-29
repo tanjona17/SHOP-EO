@@ -54,7 +54,7 @@ const objectID = new mongoose.Types.ObjectId(q)
 
   return (
     <>
-      <div className="px-[60px] pt-3    lg:ml-[280px] sm:ml-0 h-screen w-full">
+      <div className="px-[60px] pt-3  mt-20  lg:ml-[280px] sm:ml-0 h-screen w-full">
         <h1>Add new product</h1>
         <form
           onSubmit={new_product.handleSubmit}

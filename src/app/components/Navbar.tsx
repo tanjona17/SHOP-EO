@@ -44,9 +44,6 @@ export default function Navbar(props: Props) {
   }
 
 
-  
-
-
 
   const log_out = () => {
     localStorage.clear();

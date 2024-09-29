@@ -85,7 +85,7 @@ export default function Product_list() {
 
   const renderHeader = () => {
     return (
-      <div className="grid grid-cols-2">
+      <div className="grid grid-cols-2  ">
         <input
           className=" border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
           type="text"
@@ -175,7 +175,7 @@ export default function Product_list() {
 
   return (
     <>
-      <div className="px-[60px] pt-3    lg:ml-[280px] sm:ml-0 h-screen">
+      <div className="px-[60px] pt-3   mt-20  lg:ml-[280px] sm:ml-0 h-screen">
         <div className="grid grid-cols-2">
           <h1>List of users</h1>
           <Link href={"product/add"}>

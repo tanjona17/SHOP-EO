@@ -1,6 +1,6 @@
 "use client";
 
-import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+import { ShoppingCartIcon, UserIcon,CurrencyDollarIcon } from "@heroicons/react/24/outline";
 
 import React from "react";
 import "preline/dist/preline.js";
@@ -15,18 +15,22 @@ import { Product_type } from "../types/products_type";
 import { User } from "../types/users_type";
 import { TOKEN } from "@/redux/api";
 
+
 const fetcher = (...args: [any]) =>
   fetch(...args, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      token: `Bearer ${TOKEN}`, // get user token
+      token: `Bearer ${TOKEN}`
     },
   }).then((res) => res.json());
 
 
 export default function Page() {
   const {data: users, error: users_error} = useSWR(`http://localhost:1234/api/user?new=true`,fetcher,{
+    revalidateOnFocus:true
+  });
+  const {data: count, error: count_error} = useSWR(`http://localhost:1234/api/user?count=true`,fetcher,{
     revalidateOnFocus:true
   });
   const {data: products, error:products_error} = useSWR(`http://localhost:1234/api/product?new=true`,fetcher,{
@@ -39,9 +43,20 @@ export default function Page() {
 
       <Side_bar />
 
-      <div className="px-[60px] pt-3    lg:ml-[280px] sm:ml-0 h-screen">
+      <div className="px-[60px] lg:mt-[100px] sm:mt-10    lg:ml-[280px] sm:ml-0 h-screen">
         <div className="grid grid-cols-2 gap-14 mb-4  ">
           <div className="bg-white rounded-[9px] px-5 py-3 shadow-lg ">
+            <h1 className="">Sales</h1>
+            <div className="flex flex-row mt-5">
+              <div className="bg-blue-500 rounded-full p-3">
+                <CurrencyDollarIcon className="h-10 w-10" />
+              </div>
+              <div className="text-[30px]">
+                <p className="text-[30px]">$17953</p>
+              </div>
+            </div>
+          </div>
+          <div className="bg-white rounded-[9px] px-5 py-5 shadow-lg">
             <h1 className="">Sales</h1>
             <div className="flex flex-row mt-5">
               <div className="bg-blue-500 rounded-full p-3">
@@ -49,6 +64,19 @@ export default function Page() {
               </div>
               <div className="text-[30px]">
                 <p className="text-[30px]">$17953</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-14 mb-4  ">
+          <div className="bg-white rounded-[9px] px-5 py-3 shadow-lg ">
+            <h1 className="">Customers </h1>
+            <div className="flex flex-row mt-5">
+              <div className="bg-blue-500 rounded-full p-3">
+                <UserIcon className="h-10 w-10" />
+              </div>
+              <div className="text-[30px]">
+                <p className="text-[30px]">{count}</p>
               </div>
             </div>
           </div>

@@ -73,9 +73,8 @@ export default function User_list() {
   };
   const user_image = (row_data: User) =>{
     return (
-   
          <Image className="rounded-full" src={`/db_images/${row_data.img}`}  key={row_data._id} width={40} height={10} alt="user_image"/>
-       
+
     )
   };
   const user_type = (row_data: User) =>{
@@ -164,7 +163,7 @@ export default function User_list() {
 
   return (
     <>
-      <div className="px-[60px] pt-3    lg:ml-[280px] sm:ml-0 h-screen">
+      <div className="px-[60px] pt-3  mt-20  lg:ml-[280px] sm:ml-0 h-screen">
         <div className="grid grid-cols-1">
           <h1>List of users</h1>
         </div>

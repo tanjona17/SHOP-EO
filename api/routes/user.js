@@ -79,9 +79,18 @@ router.get("/search/:id", verify_token, async (req, res) => {
 
 router.get("/", verify_token, async (req, res) => {
   const qnew = req.query.new;
+  const count = req.query.count
   if (qnew) {
     try {
       const user = await User.find().sort({_id: -1}).limit(5);
+      return res.status(200).json(user);
+    } catch (error) {
+      console.log(error);
+    }
+  } 
+  if (count) {
+    try {
+      const user = await User.countDocuments();
       return res.status(200).json(user);
     } catch (error) {
       console.log(error);
@@ -94,6 +103,9 @@ router.get("/", verify_token, async (req, res) => {
     console.log(error);
   }
 });
+
+
+
 
 // Get stats number of user per month
 
