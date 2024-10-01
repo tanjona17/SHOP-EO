@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Product = require("../models/Produts.ts");
+const Sales = require("../models/Sales.ts")
 const mongoose = require("mongoose");
 const {objectID} = require("mongodb")
 const multer = require("multer");
@@ -36,10 +37,6 @@ router.post("/register",upload.single("img"),  async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-
-
-
-
 });
 
 // UPDATE
@@ -60,70 +57,9 @@ router.put("/", async (req, res) => {
   }
 });
 
-// DELETE
-// router.delete("/:id", async (req, res) => {
-//   const id = req.params.id;
-//    const objectID = new mongoose.Types.ObjectId(id);
-//   try {
-//     await Product.findByIdAndDelete(objectID);
-//     res.status(200).json("product delete successfuly");
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
-// router.delete("/", async (req, res) => {
-//   const {ids} = req.body;
-//   //  const objectID = new mongoose.Types.ObjectId(ids);
-//   try {
-//     await Product.deleteMany({
-//       _id: {$in: ids}
-//     });
-//     res.status(200).json("products delete successfuly");
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
 
-// GET one product
-// router.get("",  async (req, res) =>{
-//     const id = req.query.id
-//     const objectID = new mongoose.Types.ObjectId(id)
-//     try {
 
-//         const product = await Product.findById(objectID);
-//         product ? res.status(200).json(product) : res.status(404).json("no product matching your search 😥")
 
-//     } catch (error) {
-//         console.log(error);
-//     }
-
-// });
-
-// GET all product
-// router.get("/", async (req, res) => {
-//   const id = req.query.id;
-//   const categories = req.query.category
-
-  
-//   if (id) {
-//     const objectID = new mongoose.Types.ObjectId(id);
-//     try {
-//       const product = await Product.findById(objectID);
-//       product
-//         ? res.status(200).json(product)
-//         : res.status(404).send("no product matching your search 😥");
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   } else {
-//     try {
-//       const product = await Product.find();
-//       res.status(200).json(product);
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   }
-// });
 
 // original
 router.get("/", async (req, res) => {
@@ -433,27 +369,57 @@ router.delete("/", async (req, res) => {
   }
 });
 
-router.get("/search")
+router.post("/paiement", async (req, res) => {
+  const { product_name, quantity, total_price } = req.body;
+  const np = new Sales({
+    product_name,
+    quantity,
+    total_price
+  });
+  try {
+    const sp = await np.save();
+    res.status(200).json(sp);
+  } catch (error) {
+    console.log(error);
+  }
+
+  
+
+});
+router.get("/paiement", async (req, res) => {
+  try {
+    const pay = await Sales.find();
+    res.status(200).json(pay);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.get("/revenue", async (req,res) =>{
+  try {
+    const result = await Sales.aggregate([
+      {
+        $group: {
+          _id: null, // Group all documents
+          total_price: { $sum: "$total_price" } // Sum total_price
+        }
+      }
+    ]);
+
+    // result[0].totalPriceSum will have the sum of total_price
+    const total_price = result.length > 0 ? result[0].total_price : 0;
+
+    res.status(200).json({ total_price });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
+
+
 
 module.exports = router;
 
-// if(qprice && qcategory){
-//   const {categories,price} = req.query;
-//   const p = price.split(",").map(Number);
-//   const is_array = Array.isArray(categories) ? categories : categories.split(",");
 
-//   try {
-//     const  product = await Product.find({
-//        categories : {$in:is_array },
-//        price : {$gte:p[0], $lte: p[1]}
-       
-//      });
-//     res.status(200).json(product);
-//     return;
-    
-//   } catch (error) {
-//     console.log(error);
-//   }
-   
 
-// }

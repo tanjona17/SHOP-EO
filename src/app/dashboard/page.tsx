@@ -35,7 +35,13 @@ export default function Page() {
   });
   const {data: products, error:products_error} = useSWR(`http://localhost:1234/api/product?new=true`,fetcher,{
     revalidateOnFocus:true
+  });
+  const {data: revenue, error:revenue_error} = useSWR(`http://localhost:1234/api/product/revenue`,fetcher,{
+    revalidateOnFocus:true
   })
+
+
+
 
   return (
     <>
@@ -46,13 +52,13 @@ export default function Page() {
       <div className="px-[60px] lg:mt-[100px] sm:mt-10    lg:ml-[280px] sm:ml-0 h-screen">
         <div className="grid grid-cols-2 gap-14 mb-4  ">
           <div className="bg-white rounded-[9px] px-5 py-3 shadow-lg ">
-            <h1 className="">Sales</h1>
+            <h1 className="">Revenue</h1>
             <div className="flex flex-row mt-5">
               <div className="bg-blue-500 rounded-full p-3">
                 <CurrencyDollarIcon className="h-10 w-10" />
               </div>
               <div className="text-[30px]">
-                <p className="text-[30px]">$17953</p>
+                {revenue ? <p key={revenue.total_price} className="text-[30px]">${revenue.total_price}</p> : ""}
               </div>
             </div>
           </div>

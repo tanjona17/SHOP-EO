@@ -13,13 +13,46 @@ import { reset_cart } from '@/redux/cart_redux';
 import Link from "next/link";
 
 export default function User_cart() {
+
     const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cart);
+    const cart = useSelector((state) => state.cart);
+    const product_name = cart.data[0].product_name;
+    const quantity = useSelector((state) => state.cart.quantity);
+    const total_price = useSelector((state) => state.cart.total_price);
+
+    
 
 
     const reset = ()=>{
         dispatch(reset_cart());
-    }
+    };
+
+    const checkout = () =>{
+
+    };
+    const savePayment = async () => {
+      try {
+        const response = await fetch("http://localhost:1234/api/product/pay", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            product_name,
+            quantity,
+            total_price,
+          }),
+        });
+        
+        const data = await response.json();
+        console.log("Payment saved successfully:", data);
+      } catch (error) {
+        console.error("Error saving payment:", error);
+      }
+    };
+    
+  
+
   return (
     <>
       <Navbar title={"Shop Eo"} />
@@ -95,6 +128,7 @@ export default function User_cart() {
             <div className="w-[50%]  text-end">
               <p>{cart.quantity}</p>
               <p className="mt-5">${cart.total_price}</p>
+              {/* <input type="text" className="w-20  appearance-none border-0py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" value={cart.total_price}  /> */}
             </div>
           </div>
           <div className="flex justify-center mt-3">
@@ -105,6 +139,7 @@ export default function User_cart() {
           text-white rounded-full
           px-5 py-2 hover:bg-white 
           hover:text-[#13304D] '
+          onClick={savePayment}
           >
             CHECKOUT
           </button>
