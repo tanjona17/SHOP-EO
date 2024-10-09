@@ -14,7 +14,7 @@ const Sales_schema = new mongoose.Schema(
             type: Number,
             required: true,
         }
-    }, {timeStamps :true}
+    }, {timestamps :true}
 );
 const Sales_model = mongoose.model("Sales",Sales_schema);
 module.exports = Sales_model;

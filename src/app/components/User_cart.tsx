@@ -16,13 +16,12 @@ export default function User_cart() {
 
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart);
-    const product_name = cart.data[0].product_name;
+    const product_name = cart.data.length > 0 ?  cart.data[0].product_name : ""
     const quantity = useSelector((state) => state.cart.quantity);
     const total_price = useSelector((state) => state.cart.total_price);
 
+    console.log();
     
-
-
     const reset = ()=>{
         dispatch(reset_cart());
     };
@@ -30,9 +29,9 @@ export default function User_cart() {
     const checkout = () =>{
 
     };
-    const savePayment = async () => {
+    const save_payment = async () => {
       try {
-        const response = await fetch("http://localhost:1234/api/product/pay", {
+        const response = await fetch("http://localhost:1234/api/product/payment", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -43,15 +42,13 @@ export default function User_cart() {
             total_price,
           }),
         });
-        
+
         const data = await response.json();
         console.log("Payment saved successfully:", data);
       } catch (error) {
         console.error("Error saving payment:", error);
       }
     };
-    
-  
 
   return (
     <>
@@ -139,7 +136,7 @@ export default function User_cart() {
           text-white rounded-full
           px-5 py-2 hover:bg-white 
           hover:text-[#13304D] '
-          onClick={savePayment}
+          onClick={save_payment}
           >
             CHECKOUT
           </button>

@@ -46,7 +46,7 @@ router.post("/register",upload.single("img"), async (req, res) => {
       username: req.body.username,
       email: req.body.email,
       password: CryptoJS.AES.encrypt(req.body.password, secret_key).toString(),
-      img: req.file.filename,
+      // img: req.file.filename,
       is_admin: req.body.is_admin,
     });
   

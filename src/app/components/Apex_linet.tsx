@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import useSWR from "swr";
 import { TOKEN } from "@/redux/api";
@@ -12,20 +12,25 @@ const fetcher = (...args: [any]) =>
     },
   }).then((res) => res.json());
 
-  export default function Apex_line()  {
-  // Fetch count data with useSWR
-  const { data: count, error: count_error } = useSWR(
-    `http://localhost:1234/api/user?count=true`,
-    fetcher,
-    { revalidateOnFocus: true }
-  );
+export default function Apex_line() {
 
-  // Initialize the chart state
+  const {data: products, error:products_error} = useSWR(`http://localhost:1234/api/product`,fetcher,{
+    revalidateOnFocus:true
+  });
+
+  const {data: count, error: count_error} = useSWR(`http://localhost:1234/api/user?count=true`,fetcher,{
+    revalidateOnFocus:true
+  });
+
+  console.log(count);
+  
+  
   const [state, set_state] = useState({
     series: [
       {
         name: "Number of sales",
-        data: [], // Empty array initially, will be updated dynamically
+      data: [],
+        
       },
     ],
     options: {
@@ -43,7 +48,7 @@ const fetcher = (...args: [any]) =>
       },
 
       title: {
-        text: "Analysis of the market",
+        text: " Analysis of the market",
         align: "left",
       },
 
@@ -52,6 +57,7 @@ const fetcher = (...args: [any]) =>
         "April", "Mai", "June",
         "July", "August", "September",
         "October", "November", "December"
+
       ],
       xaxis: {
         categories: [
@@ -78,21 +84,6 @@ const fetcher = (...args: [any]) =>
     },
   });
 
-  // Update the chart when count data is available
-  useEffect(() => {
-    if (count && !count_error) {
-      set_state((prevState) => ({
-        ...prevState,
-        series: [
-          {
-            name: "Number of sales",
-            data: count, // Update the data dynamically from count
-          },
-        ],
-      }));
-    }
-  }, [count, count_error]); // Watch for changes in count or error
-
   return (
     <div>
       <div
@@ -110,6 +101,22 @@ const fetcher = (...args: [any]) =>
       <div id="html-dist"></div>
     </div>
   );
-};
+}
+
+//   const domContainer = document.querySelector('#app');
+//   ReactDOM.render(React.createElement(ApexChart), domContainer);
+
+// labels: [
+//   "January", "February", "March",
+//   "April", "Mai", "June",
+//   "July", "August", "September",
+//   "October", "November", "December"
+
+// ],
+// xaxis: {
+//   type: "month",
+// },
 
 
+
+it is my chart how can i make it dynamically by using the count as data
