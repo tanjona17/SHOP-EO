@@ -12,7 +12,7 @@ import "flowbite/dist/flowbite.min.js";
 import Navbar from "../components/Navbar";
 import Side_bar from "../components/Side_bar";
 import Line_chart from "../components/Line_chart";
-import Apex_line from "../components/Apex_linet";
+import Apex_line from "../components/Apex_line";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
 import { Product_type } from "../types/products_type";
@@ -31,7 +31,6 @@ const fetcher = (...args: [any]) =>
 
 export default function Page() {
   const [inc, set_income] = useState();
-  // const [q, set_q] = useState([]);
   const [index, set_index] = useState(false);
   const [key, set_key] = useState(1);
   const [sales_percentage, set_perc] = useState(0);
@@ -148,7 +147,7 @@ export default function Page() {
                   ""
                 )}
                 <div className="flex">
-                  {Math.floor(q_percentage)}%
+                  {Math.floor(sales_percentage)}%
                   {q_percentage > 0 ? (
                     <div className="flex">
                       <ArrowUpIcon
@@ -191,7 +190,7 @@ export default function Page() {
             </div>
           </div>
         </div>
-        {/* <Apex_line /> */}
+        <Apex_line />
         <div className="grid grid-cols-2 gap-14 mb-4 h-[350px] mt-[40px]  ">
           <div className="bg-white  px-5 py-5 mt-3 overflow-y-scroll [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
             <h1>New members</h1>

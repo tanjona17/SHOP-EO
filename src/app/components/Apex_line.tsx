@@ -8,20 +8,20 @@ const fetcher = (...args: [any]) =>
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      token: `Bearer ${TOKEN}`
+      token: `Bearer ${TOKEN}`,
     },
   }).then((res) => res.json());
 
-  export default function Apex_line()  {
+export default function ApexLine() {
   // Fetch count data with useSWR
   const { data: count, error: count_error } = useSWR(
-    `http://localhost:1234/api/user?count=true`,
+    `http://localhost:1234/api/product/income`,
     fetcher,
     { revalidateOnFocus: true }
   );
 
   // Initialize the chart state
-  const [state, set_state] = useState({
+  const [state, setState] = useState({
     series: [
       {
         name: "Number of sales",
@@ -48,10 +48,18 @@ const fetcher = (...args: [any]) =>
       },
 
       labels: [
-        "January", "February", "March",
-        "April", "Mai", "June",
-        "July", "August", "September",
-        "October", "November", "December"
+        "January",
+        "February",
+        "March",
+        "April",
+        "Mai",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
       ],
       xaxis: {
         categories: [
@@ -80,13 +88,16 @@ const fetcher = (...args: [any]) =>
 
   // Update the chart when count data is available
   useEffect(() => {
-    if (count && !count_error) {
-      set_state((prevState) => ({
+    if (count && count.length > 0) {
+      // Map the `q` values (number of sales) from the count data
+      const salesData = count.map((item) => item.q);
+
+      setState((prevState) => ({
         ...prevState,
         series: [
           {
             name: "Number of sales",
-            data: count, // Update the data dynamically from count
+            data: salesData, // Update the data dynamically with the mapped values
           },
         ],
       }));
@@ -110,6 +121,4 @@ const fetcher = (...args: [any]) =>
       <div id="html-dist"></div>
     </div>
   );
-};
-
-
+}
