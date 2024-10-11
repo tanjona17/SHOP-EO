@@ -31,13 +31,13 @@ export default function Create_account() {
     <div className="flex justify-center w-screen h-screen items-center">
       <div
         className="
-    grid grid-cols-2
-    w-[750px] h-[450px] 
+    grid md:grid-cols-2 sm:grid-cols-1
+    w-[750px] h-[450px]   sm:mx-[60px]
     rounded-[10px]
     bg-[#5B6EE8]"
       >
         <div className="flex justify-center items-center w-full h-full">
-          <div className="text-white font-bold">
+          <div className="text-white font-bold sm:mt-3">
             <p className="text-[30px]">
               JOIN US{" "}
               <span className="text-[20px]">
@@ -50,9 +50,9 @@ export default function Create_account() {
         </div>
         <div
           className="
-        bg-white w-full h-full 
-        rounded-tr-[9px] rounded-tl-[35px] 
-        rounded-bl-[35px] rounded-br-[9px]  "
+        bg-white w-full h-full sm:w-[95%] sm:ml-4
+        rounded-tr-[9px] rounded-tl-[35px] sm:rounded-tl-[9px] 
+        rounded-bl-[35px] rounded-br-[9px] sm:rounded-bl-[9px]  "
         >
           <div className="flex flex-col  justify-center items-center w-full h-[420px] ">
             <form onSubmit={new_customer.handleSubmit}>
