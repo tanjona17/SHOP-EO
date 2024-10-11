@@ -55,16 +55,17 @@ export default function Login() {
 
   return (
     <>
-      <div className="flex justify-center w-screen h-screen items-center">
+      <div className="flex justify-center w-screen h-screen items-center ">
         <div
           className="
-    grid grid-cols-2
+    grid md:grid-cols-2 sm:grid-cols-1
+    sm:mx-[60px]
     w-[750px] h-[450px] 
     rounded-[10px]
     bg-[#5B6EE8]"
         >
           <div className="flex justify-center items-center w-full h-full">
-            <div className="text-white font-bold">
+            <div className="text-white font-bold sm:mt-3">
               <p className="text-[30px]">
                 WELCOME BACK,
                 <br />
@@ -76,11 +77,11 @@ export default function Login() {
           </div>
           <div
             className="
-        bg-white w-full h-full 
-        rounded-tr-[9px] rounded-tl-[35px] 
-        rounded-bl-[35px] rounded-br-[9px]  "
+        bg-white md:w-full h-full  sm:w-5/5 sm:mr-3 sm:ml-3
+        rounded-tr-[9px] rounded-tl-[35px] sm:rounded-tl-[9px] 
+        rounded-bl-[35px] rounded-br-[9px] sm:rounded-bl-[9px]  "
           >
-            <div className="flex flex-col  justify-center items-center w-full h-[420px] ">
+            <div className="flex flex-col  justify-center items-center w-full h-[420px]  ">
               <div
                 className="
                 flex justify-center mb-7
