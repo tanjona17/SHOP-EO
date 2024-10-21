@@ -78,8 +78,8 @@ export default function Login() {
           <div
             className="
         bg-white md:w-full h-full  sm:w-5/5 sm:mr-3 sm:ml-3
-        rounded-tr-[9px] rounded-tl-[35px] sm:rounded-tl-[9px] 
-        rounded-bl-[35px] rounded-br-[9px] sm:rounded-bl-[9px]  "
+        rounded-tr-[9px] md:rounded-tl-[35px] sm:rounded-tl-[9px] 
+        md:rounded-bl-[35px] rounded-br-[9px] sm:rounded-bl-[9px]  "
           >
             <div className="flex flex-col  justify-center items-center w-full h-[420px]  ">
               <div

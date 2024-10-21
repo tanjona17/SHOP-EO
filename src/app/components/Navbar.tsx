@@ -56,7 +56,7 @@ export default function Navbar(props: Props) {
     <>
    
   
-    <div className="fixed top-0 z-50  grid grid-cols-3 px-[50px] items-center py-3 bg-white w-full">
+    <div className="fixed top-0 z-50  grid grid-cols-3  md:px-[50px] sm:px-[10px] items-center py-3 bg-white w-full min-w-[500px]">
         <div className="font-bold text-[#13304D] text-[20px] flex">
           <button
             type="button"
@@ -72,7 +72,7 @@ export default function Navbar(props: Props) {
           <h1 className="lg:block sm:hidden">{props.title}</h1>
         </div>
 
-        <div className="flex">
+        <div className="flex sm:ml-[-70px]">
           <input
             type="text"
             onChange={(e)=>set_input(e.target.value)}

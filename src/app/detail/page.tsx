@@ -50,46 +50,49 @@ export default  function Products_cart() {
     
    
       data ?
-          <div className='flex h-[350px] px-[80px] mt-[80px]  justify-center'>
-            <div className='flex w-3/5 bg-white '>
+          <div className='grid grid-cols-1 h-[350px]   xl:px-[280px] lg:px-[280px]  md:px-[50px]  sm:px-[10px] mt-[80px]   justify-center bg-black'>
+            <div className='flex  bg-white sm:h-[290px] rounded-[9px] '>
             <div className='
-              flex bg-slate-500 w-3/5 
+              flex bg-slate-500 md:w-[40%] sm:w-[40%] p-2 rounded-tl-[9px] rounded-bl-[9px]
             '>
-              <div className='flex w-full justify-center '>
+              <div className='flex w-full justify-center p-2 '>
                 <Image src={`/db_images/${data.img}`} width={1200} height={1000}  alt="product image" />
               </div>
               
             </div>
-            <div className=' w-4/5 px-[50px] pt-5'>
-              <div className='flex grid grid-cols-2 text-[#13304D] '>
+            <div className=' md:w-[500px] sm:w-[80%]   px-[50px] pt-5'>
+              <div className='w-full grid grid-cols-2 text-[#13304D] '>
                 <div className='font-bold text-[24px]'>{data.product_name}</div>
                 <div className='font-bold text-[24px]'>{data.price}</div>
               </div>
-              <div className='about px-0 w-4/5 mt-5 h-[120px] overflow-y-auto  '>
+              <div className='about px-0 w-full mt-5 h-[120px]  overflow-y-auto  '>
                 <p className='text-[#707070]'>
                   {data.descri}
               
                 </p>
               </div>
            
-              <div className='flex justify-start w-full mt-10 '>
-              <div className='flex  mt-0 w-1/5 justify-start '>
-                            <div className='flex   items-center'> 
-                                <button onClick={() => handle_quantity("decrease")}  >
-                                    <MinusCircleIcon className=" w-[40px] p-1  ml-0 rounded-lg  text-[#5B6EE8] "/>
-                                </button>
-                                 {quantity}
-                                <button onClick={() => handle_quantity("increase")}  >
-                                    <PlusCircleIcon className=" w-[40px] p-1  ml-0 rounded-lg text-[#5B6EE8] "/>
-                                </button>
-                            </div>          
+              <div className='sm:grid sm:grid-cols-1 md:flex  w-full flex-row justify-start  mt-10 sm:mt-0 '>
+              <div className='flex  mt-0 w-full justify-center '>
+                <div className='flex items-center'> 
+                  <button onClick={() => handle_quantity("decrease")}  >
+                    <MinusCircleIcon className=" w-[40px] p-1  ml-0 rounded-lg  text-[#5B6EE8] "/>
+                  </button>
+                      {quantity}
+                  <button onClick={() => handle_quantity("increase")}  >
+                    <PlusCircleIcon className=" w-[40px] p-1  ml-0 rounded-lg text-[#5B6EE8] "/>
+                  </button>
+                </div>          
               </div>
-                <div className='flex bg-[#5B6EE8]  px-3 py-1 rounded-full ml-[60px]'>
+              <div className='flex md:w-full  sm:justify-center '>
+              <div className=' flex bg-[#5B6EE8]  px-3 py-1 rounded-full '>
                   <ShoppingCartIcon className=" w-[35px] p-1  ml-0 rounded-lg text-white "/>
                   <button className='flex  px-3 pt-2 ' onClick={add_to_cart}>
                       Add to cart
                   </button>
                 </div>
+              </div>
+               
                     </div>
             </div>
             </div>

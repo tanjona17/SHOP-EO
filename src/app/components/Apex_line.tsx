@@ -13,19 +13,17 @@ const fetcher = (...args: [any]) =>
   }).then((res) => res.json());
 
 export default function ApexLine() {
-  // Fetch count data with useSWR
   const { data: count, error: count_error } = useSWR(
     `http://localhost:1234/api/product/income`,
     fetcher,
     { revalidateOnFocus: true }
   );
 
-  // Initialize the chart state
   const [state, setState] = useState({
     series: [
       {
         name: "Number of sales",
-        data: [], // Empty array initially, will be updated dynamically
+        data: [],
       },
     ],
     options: {
@@ -86,29 +84,25 @@ export default function ApexLine() {
     },
   });
 
-  // Update the chart when count data is available
   useEffect(() => {
     if (count && count.length > 0) {
-      // Map the `q` values (number of sales) from the count data
-      const salesData = count.map((item) => item.q);
-
+      const salesData = count.map((item: { q: any }) => item.q);
       setState((prevState) => ({
         ...prevState,
         series: [
           {
             name: "Number of sales",
-            data: salesData, // Update the data dynamically with the mapped values
+            data: salesData,
           },
         ],
       }));
     }
-  }, [count, count_error]); // Watch for changes in count or error
-
+  }, [count, count_error]);
   return (
     <div>
       <div
         id="chart"
-        className="flex items-center justify-center h-full mt-[40px] pt-5 mb-4 rounded bg-gray-50 shadow-lg rounded-[9px]"
+        className="flex items-center justify-center h-full mt-[40px] pt-5 mb-4  bg-gray-50 shadow-lg rounded-[9px]"
       >
         <ReactApexChart
           options={state.options}

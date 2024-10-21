@@ -55,17 +55,18 @@ export default function User_cart() {
       <Navbar title={"Shop Eo"} />
 
       {/* original */}
-      <div className="grid grid-cols-3 gap-4 mt-5 ">
-        <div className=" h-[610px] col-span-2 overflow-y-scroll mt-10">
+      <div className="grid md:grid-cols-3 sm:grid-cols-1 md:gap-4 sm:gap-0 mt-5 ">
+        <div className="  md:h-[610px] sm:h-[350px] sm:justify-center col-span-2 overflow-y-scroll overflow-x-hidden mt-10">
           {cart.data.length > 0 ? cart.data.map((prod: Product_type) => {
             return (
               <>
-                <div className=" mt-5  w-4/5 ml-5">
+                <div className=" mt-5  md:w-4/5 sm:w-full ml-5  flex justify-center">
                   <div
                     className="
                         flex px-[80px] pt-3 
                         w-4/5 h-[190px] shadow-lg 
                         rounded-[16px]  bg-white"
+                        
                   >
                     <div
                       className="

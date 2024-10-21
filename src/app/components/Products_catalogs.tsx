@@ -19,7 +19,7 @@ export default function ProuctsCatalogs(props: Props) {
 
   return (
     <>  
-   <div className=" justify-center grid grid-cols-3 ml-[120px] mt-[35px]   ">
+   <div className="  grid md:grid-cols-3 sm:grid-cols-1 lg:ml-[120px]  mt-[35px] lg:px-[180px] md:px-[2px] sm:px-[100px] min-w-[500px] ">
 
    {  
       props.data && props.data.length > 0 ?   props.data.map( (x: Product_type)  =>{
@@ -31,6 +31,7 @@ export default function ProuctsCatalogs(props: Props) {
         rounded-tr-[7px] rounded-tl-[7px] 
         rounded-br-[15px] rounded-bl-[15px]
         animate__animated animate__pulse 
+        lg:ml-[120px] md:mx-[10px] 
         mt-5"
         key={x._id}>
           <div className='flex w-[250px] h-[250px] justify-center p-3'>
