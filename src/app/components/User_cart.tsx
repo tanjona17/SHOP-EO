@@ -113,45 +113,47 @@ export default function User_cart() {
         </div>
 
        
-
-        <div className="bg-white pt-5 px-5 mt-10 ">
-          <div className="text-center font-medium text-[30px]">
-            <h1>Order</h1>
-          </div>
-          <div className="flex">
-            <div className="w-[50%]">
-              <p>Number of product</p>
-              <p className="mt-5">Total</p>
-            </div>
-            <div className="w-[50%]  text-end">
-              <p>{cart.quantity}</p>
-              <p className="mt-5">${cart.total_price}</p>
-              {/* <input type="text" className="w-20  appearance-none border-0py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" value={cart.total_price}  /> */}
-            </div>
-          </div>
-          <div className="flex justify-center mt-3">
-            
-          <button className='
-          border border-[#13304D]
-          bg-[#13304D] 
-          text-white rounded-full
-          px-5 py-2 hover:bg-white 
-          hover:text-[#13304D] '
-          onClick={save_payment}
-          >
-            CHECKOUT
-          </button>
-          <button className='
-          border border-red-300 ml-3
-          text-red-400 rounded-full
-          px-5 py-2 hover:bg-red-500
-          hover:text-[white] '
-          onClick={reset}
-          >
-            RESET
-          </button>
-          </div>
-        </div>
+        {
+         cart.data.length > 0 ?  <div className="bg-white pt-5 px-5 mt-10 ">
+         <div className="text-center font-medium text-[30px]">
+           <h1>Order</h1>
+         </div>
+         <div className="flex">
+           <div className="w-[50%]">
+             <p>Number of product</p>
+             <p className="mt-5">Total</p>
+           </div>
+           <div className="w-[50%]  text-end">
+             <p>{cart.quantity}</p>
+             <p className="mt-5">${cart.total_price}</p>
+             {/* <input type="text" className="w-20  appearance-none border-0py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" value={cart.total_price}  /> */}
+           </div>
+         </div>
+         <div className="flex justify-center mt-3">
+           
+         <button className='
+         border border-[#13304D]
+         bg-[#13304D] 
+         text-white rounded-full
+         px-5 py-2 hover:bg-white 
+         hover:text-[#13304D] '
+         onClick={save_payment}
+         >
+           CHECKOUT
+         </button>
+         <button className='
+         border border-red-300 ml-3
+         text-red-400 rounded-full
+         px-5 py-2 hover:bg-red-500
+         hover:text-[white] '
+         onClick={reset}
+         >
+           RESET
+         </button>
+         </div>
+       </div> :""
+        }
+        
       </div>
 
       

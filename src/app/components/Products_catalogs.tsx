@@ -19,7 +19,7 @@ export default function ProuctsCatalogs(props: Props) {
 
   return (
     <>  
-   <div className="  grid md:grid-cols-3 sm:grid-cols-1 lg:ml-[120px]  mt-[35px] lg:px-[180px] md:px-[2px] sm:px-[100px] min-w-[500px] ">
+   <div className="  grid md:grid-cols-3 sm:grid-cols-1 lg:ml-[120px] bg-white  mt-[35px] lg:px-[180px] md:px-[2px] sm:px-[100px] min-w-[500px] ">
 
    {  
       props.data && props.data.length > 0 ?   props.data.map( (x: Product_type)  =>{
