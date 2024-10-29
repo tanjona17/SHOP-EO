@@ -73,7 +73,7 @@ router.post("/login", async (req,res) =>{
             id: user.id
         },
         process.env.JWT_KEY, 
-        {expiresIn:"2d"}
+        {expiresIn:"1d"}
     );
 
         const {password , ...other} = user._doc;

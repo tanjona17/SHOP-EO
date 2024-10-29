@@ -11,17 +11,24 @@ import { Product_type } from "../types/products_type";
 import Image from "next/image";
 import { reset_cart } from '@/redux/cart_redux';
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function User_cart() {
 
+ 
+ 
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart);
     const product_name = cart.data.length > 0 ?  cart.data[0].product_name : ""
     const quantity = useSelector((state) => state.cart.quantity);
     const total_price = useSelector((state) => state.cart.total_price);
-
-    console.log();
+    const router = useRouter();
     
+    const handle_click = (e:  React.MouseEvent<HTMLButtonElement>) =>{
+      e.preventDefault();
+      router.push(`http://localhost:3000/stripe?amount=${total_price}`)
+      
+    }
     const reset = ()=>{
         dispatch(reset_cart());
     };
@@ -29,26 +36,26 @@ export default function User_cart() {
     const checkout = () =>{
 
     };
-    const save_payment = async () => {
-      try {
-        const response = await fetch("http://localhost:1234/api/product/payment", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            product_name,
-            quantity,
-            total_price,
-          }),
-        });
+    // const save_payment = async () => {
+    //   try {
+    //     const response = await fetch("http://localhost:1234/api/product/payment", {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({
+    //         product_name,
+    //         quantity,
+    //         total_price,
+    //       }),
+    //     });
 
-        const data = await response.json();
-        console.log("Payment saved successfully:", data);
-      } catch (error) {
-        console.error("Error saving payment:", error);
-      }
-    };
+    //     const data = await response.json();
+    //     console.log("Payment saved successfully:", data);
+    //   } catch (error) {
+    //     console.error("Error saving payment:", error);
+    //   }
+    // };
 
   return (
     <>
@@ -137,7 +144,7 @@ export default function User_cart() {
          text-white rounded-full
          px-5 py-2 hover:bg-white 
          hover:text-[#13304D] '
-         onClick={save_payment}
+         onClick={handle_click}
          >
            CHECKOUT
          </button>
@@ -151,7 +158,7 @@ export default function User_cart() {
            RESET
          </button>
          </div>
-       </div> :""
+       </div> :"" 
         }
         
       </div>
