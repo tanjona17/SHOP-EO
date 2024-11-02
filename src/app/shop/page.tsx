@@ -19,7 +19,6 @@ import { add_product } from '@/redux/cart_redux';
 import useSWR, { mutate } from "swr";
 import Navbar from "../components/Navbar";
 import { ProgressSpinner } from "primereact/progressspinner";
-import "preline/dist/preline.js";
 const fetcher = (...args: [any] ) => fetch(...args).then( (res) => res.json());
 
 

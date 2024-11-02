@@ -50,7 +50,7 @@ export default function Page() {
 
   return (
     <>
-      <div className="px-[60px] pt-3 mt-20   lg:ml-[280px] sm:ml-0 h-screen w-full">
+      <div className="px-[60px] pt-3 mt-20   lg:ml-[280px] sm:ml-0 h-screen w-full ">
         <h1>Add new product</h1>
         <form onSubmit={new_product.handleSubmit} className="flex justify-center flex-col w-[80%]  bg-white px-10 pt-10 shadow-lg rounded-[9px] mt-3 ">
           <div className="grid grid-cols-2 -mx-3 mb-6">

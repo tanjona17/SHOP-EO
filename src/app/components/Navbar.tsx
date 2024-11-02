@@ -10,53 +10,36 @@ import "/node_modules/flowbite/dist/flowbite.min.js";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { Bars3BottomLeftIcon } from "@heroicons/react/24/outline";
-import { usePathname,useRouter, useSearchParams } from "next/navigation";
-
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface Props {
   title: string;
-  
 }
-//  const Navbar_context = createContext(search);
 
 export default function Navbar(props: Props) {
-
- 
   const quantity = useSelector((state) => state.cart.quantity);
-
   const router = useRouter();
   const [search, set_input] = useState("");
-  // const search = useSelector((state) => state.user.search_input);
-  // const hanlde_change = (e) =>{
-  //   // dispatch(input_reducer(e.target.value));
-  //   set_input(e.target.value);
-  // }
-
   const url_path = usePathname();
   const s = useSearchParams();
-  const categories = s.get("categories") || '';
-  const price = s.get("price  ") || '';
-  const new_url = url_path + `?q=${search}&categories=${categories}&price=${price}`;
+  const categories = s.get("categories") || "";
+  const price = s.get("price  ") || "";
+  const new_url =
+    url_path + `?q=${search}&categories=${categories}&price=${price}`;
   console.log(new_url);
 
-  const handle_click = () =>{
+  const handle_click = () => {
     router.replace(new_url);
-  }
-
-
+  };
 
   const log_out = () => {
     localStorage.clear();
     router.push("/");
   };
 
-
- 
   return (
     <>
-   
-  
-    <div className="fixed top-0 z-50  grid grid-cols-3  md:px-[50px] sm:px-[10px] items-center py-3 bg-white w-full min-w-[500px]">
+      <div className="fixed top-0 z-50  grid grid-cols-3  md:px-[50px] sm:px-[10px] items-center py-3 bg-white w-full min-w-[500px]">
         <div className="font-bold text-[#13304D] text-[20px] flex">
           <button
             type="button"
@@ -75,7 +58,7 @@ export default function Navbar(props: Props) {
         <div className="flex sm:ml-[-70px]">
           <input
             type="text"
-            onChange={(e)=>set_input(e.target.value)}
+            onChange={(e) => set_input(e.target.value)}
             className="
                     w-[350px] py-2 px-3
                     border-1 border-gray-400 
@@ -84,12 +67,15 @@ export default function Navbar(props: Props) {
             placeholder="Search for products"
             value={search}
           />
-          <button className=" bg-[#5B6EE8] px-2 text-white rounded-tr-sm rounded-br-sm" onClick={handle_click} >
+          <button
+            className=" bg-[#5B6EE8] px-2 text-white rounded-tr-sm rounded-br-sm"
+            onClick={handle_click}
+          >
             <MagnifyingGlassIcon className="w-[25px] " />
           </button>
         </div>
         <div className="flex justify-end">
-        <Link href={"/cart"}>
+          <Link href={"/cart"}>
             <button className="py-2 px-2 mr-3 flex text-[#13304D]">
               <ShoppingCartIcon className="w-[30px] " />
               <p className="bg-red-500 text-white mt-[-10px] ml-[-7px] w-7 rounded-full">
@@ -130,9 +116,6 @@ export default function Navbar(props: Props) {
           </div>
         </div>
       </div>
-
-      
     </>
   );
-  
 }

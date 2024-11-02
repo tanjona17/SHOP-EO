@@ -21,7 +21,13 @@ export default function Login() {
 
   const handle_login = (e: MouseEvent) => {
     e.preventDefault();
-    login(dispatch, { username, password });
+    login(dispatch, {
+      username, password,
+      _id: 0,
+      email: "",
+      is_admin: false,
+      img: ""
+    });
   };
   useEffect(() => {
     if (current && !current.is_admin && !error) {

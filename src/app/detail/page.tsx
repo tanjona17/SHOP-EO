@@ -50,7 +50,7 @@ export default  function Products_cart() {
     
    
       data ?
-          <div className='grid grid-cols-1 h-[350px]   xl:px-[280px] lg:px-[280px]  md:px-[50px]  sm:px-[10px] mt-[80px]   justify-center bg-black'>
+          <div className='grid grid-cols-1 h-[350px]   xl:px-[280px] lg:px-[280px]  md:px-[50px]  sm:px-[10px] mt-[120px]   justify-center '>
             <div className='flex  bg-white sm:h-[290px] rounded-[9px] '>
             <div className='
               flex bg-slate-500 md:w-[40%] sm:w-[40%] p-2 rounded-tl-[9px] rounded-bl-[9px]

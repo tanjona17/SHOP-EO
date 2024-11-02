@@ -175,14 +175,16 @@ export default function Product_list() {
 
   return (
     <>
-      <div className="px-[60px] pt-3   mt-20  lg:ml-[280px] sm:ml-0 h-screen">
+      <div className="px-[60px] pt-3   mt-20  lg:ml-[280px] sm:ml-0 h-screen sticky top-50">
         <div className="grid grid-cols-2">
-          <h1>List of users</h1>
+          <h1>List of products</h1>
           <Link href={"product/add"}>
-            <button>Add new product</button>
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Add new product
+          </button>
           </Link>
         </div>
-        <div className="grid grid-cols-1 gap-14 mb-4  ">
+        <div className="grid grid-cols-1 gap-14 mb-4 mt-3 ">
           <DataTable
             className="w-full"
             header={header}
@@ -190,6 +192,8 @@ export default function Product_list() {
             selectionMode={row_click ? undefined : "multiple"}
             selection={selected_product!}
             sortMode="multiple"
+            scrollable 
+            scrollHeight="500px"
             onSelectionChange={(e: { value: React.SetStateAction<never[]> }) =>
               set_product(e.value)
             }

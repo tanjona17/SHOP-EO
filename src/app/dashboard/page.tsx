@@ -7,11 +7,8 @@ import {
 } from "@heroicons/react/24/outline";
 
 import React, { use, useEffect, useState } from "react";
-import "preline/dist/preline.js";
-import "flowbite/dist/flowbite.min.js";
 import Navbar from "../components/Navbar";
 import Side_bar from "../components/Side_bar";
-import Line_chart from "../components/Line_chart";
 import Apex_line from "../components/Apex_line";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
@@ -37,7 +34,7 @@ export default function Page() {
   const [q_percentage, set_q] = useState(0);
 
   const { data: users, error: users_error } = useSWR(
-    `http://localhost:1234/api/user?new=true`,
+    `http://localhos  t:1234/api/user?new=true`,
     fetcher,
     {
       revalidateOnFocus: false,
@@ -93,7 +90,7 @@ export default function Page() {
       <Side_bar />
 
       <div className="px-[60px] lg:mt-[100px] sm:mt-10    lg:ml-[280px] sm:ml-0 h-screen">
-        <div className="grid grid-cols-2 gap-14 mb-4  ">
+        <div className="grid md:grid-cols-2 sm:grid-cols-1 md:gap-14 sm:gap-5 mb-4 bg-red-500  ">
           <div className="bg-white rounded-[9px] px-5 py-3 shadow-lg ">
             <div className="flex">
               <h1 className="">Revenue | </h1>
@@ -101,11 +98,11 @@ export default function Page() {
                 month
               </button>
             </div>
-            <div className="flex flex-row mt-5">
-              <div className="bg-blue-500 rounded-full p-3">
+            <div className="flex flex-row mt-5 items-start">
+              <div className="bg-blue-500 rounded-full p-3 ">
                 <CurrencyDollarIcon className="h-10 w-10" />
               </div>
-              <div className="text-[30px]">
+              <div className="text-[30px] ml-5">
                 {inc ? (
                   <p key={inc[key]._id} className="text-[30px]">
                     ${inc[key].total}
@@ -121,7 +118,7 @@ export default function Page() {
                         className="h-10 w-10"
                         textAnchor="increase"
                       />{" "}
-                      <p>incrase</p>
+                      <p>increase</p>
                     </div>
                   ) : (
                     <div className="flex">
@@ -134,11 +131,11 @@ export default function Page() {
           </div>
           <div className="bg-white rounded-[9px] px-5 py-5 shadow-lg">
             <h1 className="">Sales</h1>
-            <div className="flex flex-row mt-5">
-              <div className="bg-blue-500 rounded-full p-3">
+            <div className="flex flex-row mt-5 items-start">
+              <div className="bg-blue-500 rounded-full p-3 ">
                 <ShoppingCartIcon className="h-10 w-10" />
               </div>
-              <div className="text-[30px]">
+              <div className="text-[30px] ml-5">
                 {inc ? (
                   <p key={inc[key]} className="text-[30px]">
                     {inc[key].q}
@@ -154,7 +151,7 @@ export default function Page() {
                         className="h-10 w-10"
                         textAnchor="increase"
                       />{" "}
-                      <p>incrase</p>
+                      <p>increase</p>
                     </div>
                   ) : (
                     <div className="flex">
@@ -166,32 +163,32 @@ export default function Page() {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-14 mb-4  ">
+        <div className="grid md:grid-cols-2 sm:grid-cols-1 md:gap-14 sm:gap-5 gap-14 mb-4  ">
           <div className="bg-white rounded-[9px] px-5 py-3 shadow-lg ">
             <h1 className="">Customers </h1>
-            <div className="flex flex-row mt-5">
-              <div className="bg-blue-500 rounded-full p-3">
+            <div className="flex flex-row mt-5 items-start">
+              <div className="bg-blue-500 rounded-full p-3 ">
                 <UserIcon className="h-10 w-10" />
               </div>
-              <div className="text-[30px]">
+              <div className="text-[30px] ml-5">
                 <p className="text-[30px]">{count}</p>
               </div>
             </div>
           </div>
           <div className="bg-white rounded-[9px] px-5 py-5 shadow-lg">
             <h1 className="">Sales</h1>
-            <div className="flex flex-row mt-5">
-              <div className="bg-blue-500 rounded-full p-3">
+            <div className="flex flex-row mt-5 items-start">
+              <div className="bg-blue-500 rounded-full p-3 ">
                 <ShoppingCartIcon className="h-10 w-10" />
               </div>
-              <div className="text-[30px]">
+              <div className="text-[30px] ml-5">
                 <p className="text-[30px]">$17953</p>
               </div>
             </div>
           </div>
         </div>
         <Apex_line />
-        <div className="grid grid-cols-2 gap-14 mb-4 h-[350px] mt-[40px]  ">
+        <div className="grid md:grid-cols-2 sm:grid-cols-1 md:gap-14 sm:gap-5 mb-4 h-[350px] mt-[40px]  ">
           <div className="bg-white  px-5 py-5 mt-3 overflow-y-scroll [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
             <h1>New members</h1>
             {users

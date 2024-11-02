@@ -10,7 +10,8 @@ import { useFormik } from "formik";
 import axios from "axios";
 import useSWR from "swr";
 import { Product_type } from "../types/products_type";
-import { Carousel } from "primereact/carousel";
+import Carousel from "./Carousel";
+
 
 const fetcher = (...args: [any]) => fetch(...args).then((res) => res.json());
 export default function Home() {
@@ -166,7 +167,7 @@ export default function Home() {
       </p>
       {/* <Products_catalogs data={data} error={error} /> */}
       <div className="card">
-            <Carousel value={data} numScroll={1} numVisible={3}  itemTemplate={productTemplate} />
+            <Carousel/>
         </div>
       <p
         className="
