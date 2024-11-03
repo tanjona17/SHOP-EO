@@ -53,10 +53,10 @@ export default  function Products_cart() {
           <div className='grid grid-cols-1 h-[350px]   xl:px-[280px] lg:px-[280px]  md:px-[50px]  sm:px-[10px] mt-[120px]   justify-center '>
             <div className='flex  bg-white sm:h-[290px] rounded-[9px] '>
             <div className='
-              flex bg-slate-500 md:w-[40%] sm:w-[40%] p-2 rounded-tl-[9px] rounded-bl-[9px]
+              flex  md:w-[40%] sm:w-[40%] p-2 rounded-tl-[9px] rounded-bl-[9px]
             '>
               <div className='flex w-full justify-center p-2 '>
-                <Image src={`/db_images/${data.img}`} width={1200} height={1000}  alt="product image" />
+                <Image src={`/db_images/${data.img}`} width={190} height={60}  alt="product image" />
               </div>
               
             </div>

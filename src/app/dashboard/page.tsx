@@ -34,7 +34,7 @@ export default function Page() {
   const [q_percentage, set_q] = useState(0);
 
   const { data: users, error: users_error } = useSWR(
-    `http://localhos  t:1234/api/user?new=true`,
+    `http://localhost:1234/api/user?new=true`,
     fetcher,
     {
       revalidateOnFocus: false,
@@ -90,7 +90,7 @@ export default function Page() {
       <Side_bar />
 
       <div className="px-[60px] lg:mt-[100px] sm:mt-10    lg:ml-[280px] sm:ml-0 h-screen">
-        <div className="grid md:grid-cols-2 sm:grid-cols-1 md:gap-14 sm:gap-5 mb-4 bg-red-500  ">
+        <div className="grid md:grid-cols-2 sm:grid-cols-1 md:gap-14 sm:gap-5 mb-4  ">
           <div className="bg-white rounded-[9px] px-5 py-3 shadow-lg ">
             <div className="flex">
               <h1 className="">Revenue | </h1>
@@ -115,14 +115,14 @@ export default function Page() {
                   {sales_percentage > 0 ? (
                     <div className="flex">
                       <ArrowUpIcon
-                        className="h-10 w-10"
+                        className="h-10 w-10 text-green-500"
                         textAnchor="increase"
                       />{" "}
                       <p>increase</p>
                     </div>
                   ) : (
                     <div className="flex">
-                      <ArrowDownIcon className="h-10 w-10" /> <p>decrease</p>
+                      <ArrowDownIcon className="h-10 w-10 text-red-500" /> <p>decrease</p>
                     </div>
                   )}
                 </div>
@@ -143,19 +143,19 @@ export default function Page() {
                 ) : (
                   ""
                 )}
-                <div className="flex">
+                <div className="flex text-[20px]">
                   {Math.floor(sales_percentage)}%
                   {q_percentage > 0 ? (
                     <div className="flex">
                       <ArrowUpIcon
-                        className="h-10 w-10"
+                        className="h-6  w-6 text-green-500"
                         textAnchor="increase"
                       />{" "}
                       <p>increase</p>
                     </div>
                   ) : (
                     <div className="flex">
-                      <ArrowDownIcon className="h-10 w-10" /> <p>decrease</p>
+                      <ArrowDownIcon className="h-10 w-10 text-red-500" /> <p>decrease</p>
                     </div>
                   )}
                 </div>
@@ -208,7 +208,7 @@ export default function Page() {
 
                       <div className=" pt-5">
                         <p>
-                          {user.username} | {user.email}{" "}
+                          {user.username} | {user.email}
                         </p>
                       </div>
                       <div className="flex justify-center py-3">
@@ -223,25 +223,6 @@ export default function Page() {
           </div>
           <div className="bg-white  px-5 py-5 mt-3 overflow-y-scroll [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
             <h1>Latest products</h1>
-            {/* <div className="flex px-7 mb-7 align-c justify-between  border-b-2 border-gray-200">
-              <div className="py-3 ">
-                <img
-                  className="w-10 h-10 rounded-full"
-                  src="/user.jpg"
-                  alt="user photo"
-                />
-              </div>
-
-              <div className=" pt-5">
-                <p>Jhon | Jhon@gmail.com </p>
-              </div>
-              <div className="flex justify-center py-3">
-                <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-full">
-                  Show
-                </button>
-              </div>
-            </div> */}
-
             {products
               ? products.map((prod: Product_type) => {
                   return (

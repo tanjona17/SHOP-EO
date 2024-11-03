@@ -35,7 +35,7 @@ export default function ProuctsCatalogs(props: Props) {
         mt-5"
         key={x._id}>
           <div className='flex w-[250px] h-[250px] justify-center p-3'>
-          <Image src={`/db_images/${x.img}`} width={1200} height={100}  alt="product image"/>
+          <Image src={`/db_images/${x.img}`} width={190} height={60}   alt="product image"/>
           </div>
        
         <div className="px-3 py-4">

@@ -25,7 +25,7 @@ router.post("/register", upload.single("img"), async (req, res) => {
     img: req.body.img,
     categories: req.body.categories,
     price: req.body.price,
-    // img: req.file.filename,
+    img: req.file.filename,
   });
 
   try {

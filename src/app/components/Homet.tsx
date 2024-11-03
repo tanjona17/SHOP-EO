@@ -252,7 +252,7 @@ export default function Home() {
           onSubmit={new_message.handleSubmit}
           className="
           flex justify-center 
-          mt-3 bg-teal-200 
+          mt-3 
           mx-[0px] md:py-[50px]
           sm:py-0 mt-5
           shadow-xl
